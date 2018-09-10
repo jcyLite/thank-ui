@@ -1,0 +1,101 @@
+<template>
+	<div>
+		<div class="select">
+			<!--此处使用的是地区接口，使用的变量areas-->
+			<div class="select-item">
+				<div class="percent percent-area">院校地区:</div>
+				<div class="per-cell per-cell-2">
+					<div class="area">
+						<span :class="{active:t.buxian}" @layclick="getAreaSchool()">不限</span>
+					</div>
+					<div class="area" v-for='(area,index) of d.areas'>
+						<span :class="{active:area.show}" @layclick="getAreaSchool(area.datavalue)">
+						{{area.dataname}}
+					</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="schools">
+			<div class="no-data" v-if="d.schools&&!d.schools.length">
+				<img src="../img/school-false.png" alt="" />
+			</div>
+			<ul>
+				<li class="school-list" @layclick="toSchool($event,school.id)" v-for='school of d.schools'>
+					<div class="school-logo">
+						<img :src="base.api('logo')+school.logo" alt="logo" title="logo" />
+					</div>
+					<div class="school-info">
+						<span class="school-name" :school-id=school.id>{{school.school_name}}</span>
+						<span class="city-name icon-shengfen" v-if='1'>{{school.city_name}}</span>
+						<br>
+						<span v-if='!1' class='five'>
+					    		<span>毕业5年月薪：<span>&yen;{{school.five}}</span></span>
+						<span>最多去向城市：<span>{{school.area_name}}{{school.bili}}%</span></span>
+						</span>
+						<span class="school-type"  v-if='type' v-for='type of school.stype'>{{type}}</span>
+						<span class="school-salary" v-if='1'>薪酬超过{{school.salary}}%的学校</span>
+						<div class="school-rank">
+							<span class="school-ranking">综合排名：<span>{{1?school.ranking:school.sort}}</span></span>
+							<div class="school-myattention" v-if="school.status">
+								<info-icon5></info-icon5>
+							</div>
+							<div class="school-myattention" v-if="!school.status">
+								<info-icon6></info-icon6>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</template>
+<script>
+	var cache = { //所有变量均定义在此对象的分支上
+	page: 1
+};
+module['info-schoollist'] = {
+	props: ['d'],
+	template: template,
+	data: function data() {
+		return {
+			t: {
+				buxian: 1
+			}
+		};
+	},
+	created: function created() {
+		console.log(this.d);
+	},
+	methods: {
+		getAreaSchool: function getAreaSchool(id) {
+			cache.page = 1;
+			if (!id) {
+				ajaxMajor.school(!1, 1);
+				this.t.buxian = 1;
+				jcy.each(init.vm.d.areas, function (index, item) {
+					item.show = 0;
+				});
+			} else {
+				this.t.buxian = 0;
+				cache.activeArea = id;
+				ajaxMajor.school(id, 1);
+				jcy.each(init.vm.d.areas, function (index, item) {
+					if (item.datavalue == id) {
+						item.show = 1;
+					} else {
+						item.show = 0;
+					}
+				});
+			}
+		},
+		toSchool: function toSchool(e, id) {
+			if (jcy(e.target).hasClass('school-myattention') || jcy(e.target).parents().hasClass('school-myattention')) {
+				attentionAjax(init.vm.d.schools, id, 'school');
+			} else {
+				location.href = href + '?school-id=' + id;
+			}
+		}
+	}
+};
+</script>

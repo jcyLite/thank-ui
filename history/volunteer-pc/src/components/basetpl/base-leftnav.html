@@ -1,0 +1,36 @@
+<!--需要传递参数 leftnav={title:'',listitem:[]}-->
+<!--需要传递方法 catalog-->
+<template>
+	<div class="tab-left">
+		<div class="navigation">
+			<span class="er-left"></span>
+			{{leftnav.title}}
+			<span class="er-right"></span>
+		</div>
+		<ul class="neibu_tab">
+			<li @layclick=catalog($event,index) v-for='(item,index) of leftnav.listitem'
+				:class="{'active':index==0,'icon-vip':index!=0&&index!=1&&index!=2}"
+				:index=index><span class="column"></span>{{item}}</li>
+		</ul>
+	</div>
+</template>
+<script>
+	module['base-leftnav'] = {
+		props: ['leftnav'],
+		template: template,
+		data: function data() {
+			return {
+				href: +location.href.split('=')[1]
+			};
+		},
+		methods: {
+			catalog: function catalog(e, index) {
+				this.$emit('catalog', e, index);
+				$(e.target).addClass('active').siblings('li.active').removeClass('active');
+			}
+		},
+		mounted: function mounted() {
+			$(".neibu_tab li").eq(this.href).trigger("click");
+		}
+	};
+</script>

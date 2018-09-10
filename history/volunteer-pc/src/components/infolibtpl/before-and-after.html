@@ -1,0 +1,90 @@
+<template>
+	<div style="height:50px;margin-bottom:10px;">
+		<div @layclick="toBefore(type)" class="info-button info-before">上一页</div>
+		<div @layclick="toAfter(type)" class="info-button info-after">下一页</div>
+	</div>
+</template>
+<script>
+	'use strict';
+module['before-and-after'] = {
+	props: ['type'],
+	template: template,
+	methods: {
+		toBefore: function toBefore(e) {
+			var that = this;
+			if (cache.page == 1) {
+				jcy.use('jcyer', function () {
+					jcy.jcyer({
+						skin: 1,
+						content: '已经到第一页了'
+					});
+				});
+				return;
+			}
+			cache.page--;
+			if (e == 'schools') {
+				sendData(0);
+			} else if (e == 'rank_schools') {
+				var city = $('.select').eq(1).find('.area span.active').attr('data-json');
+				var obj = {};
+				city && (obj.city = city);
+				obj.page = cache.page;
+				base.request(base.api(22), obj, function (data) {
+					init.vm.rank_schools = data.data;
+				});
+			} else {
+				var obj = {};
+				var bz = $('.select').eq(2).find('.per-cell span.active').html();
+				if (bz == '专科') {
+					obj.rank = 2;
+				}
+				obj.page = cache.page;
+				base.request(base.api(23), obj, function (data) {
+					init.vm.rank_majors = data.data;
+				});
+			}
+		},
+		toAfter: function toAfter(e) {
+			console.log(e);
+			var that = this;
+			if (init.vm[e].length < 10) {
+				jcy.use('jcyer', function () {
+					jcy.jcyer({
+						skin: 1,
+						content: '你点过头了'
+					});
+				});
+				return;
+			}
+			
+			cache.page++;
+			if (e == 'schools') {
+				sendData(0);
+			} else if (e == 'rank_schools') {
+				var city = $('.select').eq(1).find('.area span.active').attr('data-json');
+				var obj = {};
+				city && (obj.city = city);
+				obj.page = cache.page;
+				base.request(base.api(22), obj, function (data) {
+					init.vm.rank_schools = data.data;
+				});
+			} else {
+				var obj = {};
+				var bz = $('.select').eq(2).find('.per-cell span.active').html();
+				if (bz == '专科') {
+					obj.rank = 2;
+				}
+				obj.page = cache.page;
+				/*this.$http.post(base.baseApi('App.Major.Search'),obj).then(function(data){					
+					//init.vm.rank_majors = data.data.data;		
+					console.log(data.data.data )
+				})*/
+				base.request(base.api(23), obj, function (data) {
+					console.log(data)
+					init.vm.rank_majors = data.data;
+				});
+			}
+		}
+	}
+};
+</script>

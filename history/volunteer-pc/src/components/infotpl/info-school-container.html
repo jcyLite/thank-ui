@@ -1,0 +1,306 @@
+<template>
+	<div class="info-container info-table">
+		<div>
+			<div @layclick="button" v-for="(item,index) of t.button" :class="{'info-active':!index}" class="info-toggleshow">{{item}}</div>
+		</div>
+		<div class="jcyui-show info-box">
+			<div class="info-liteBox">
+				<div class="info-liteTitle">
+					往年录取情况(江苏理科)
+				</div>
+				<div class="info-otable">
+					<div class="row">
+						<div class="col-lg-4">年份</div>
+						<div class="col-lg-4">最低分</div>
+						<div class="col-lg-4">省控线</div>
+					</div>
+					<div class="row" v-for='(item,key) in lowest'>
+						<div class="col-lg-4">{{key}}</div>
+						<div class="col-lg-4">{{item.lowest}}</div>
+						<div class="col-lg-4">{{item.province[key]}}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="jcyui-hide info-box">
+			<div class="info-liteBox">
+				<div class="info-liteTitle">
+					学校简介
+				</div>
+				<div>
+					<div class="info-tip">
+						<span>隶属：{{d.introduce.attach}}</span>
+						<span>类型：{{d.introduce.category}}</span>
+						<span>网址：<span style="cursor: pointer;" @layclick="toSch(d.introduce.weburl)">{{d.introduce.weburl}}</span></span>
+						<span>电话：<span>{{d.introduce.enroll}}</span></span>
+					</div>
+					<div class="info-introduce">
+						<div class='info-ointro' v-html=d.introduce.intro>&nbsp;&nbsp;</div>
+					</div>
+					<div @layclick="seeMore" class="info-seeall">查看全部</div>
+				</div>
+			</div>
+			<div class="info-liteBox">
+				<div class="info-liteTitle">
+					深造情况
+				</div>
+				<div class="info-intro bd row info-shenzhao">
+					<ul class="col-sm-6 br">
+						<li class="info-duyanbi">{{d.introduce.graduate}}% </li>
+						<li class="info-duyan">读研比例</li>
+					</ul>
+					<ul class="col-sm-6">
+						<li class="info-chuguobi">{{d.introduce.abroad}}%</li>
+						<li class="info-chuguo">出国比例</li>
+					</ul>
+				</div>
+			</div>
+			<div class="info-liteBox">
+				<div class="info-liteTitle">
+					学校男女生比例
+				</div>
+				<div class="info-intro bd row info-nannv">
+					<ul class="col-sm-4">
+						<li class="info-famale">
+							<info-icon3></info-icon3>
+						</li>
+						<li class="info-nvsheng">女生</li>
+					</ul>
+					<ul class="col-sm-4">
+						<div class="info-nannvspan">
+							<span class="info-nv">{{100-d.introduce.manbili}}</span> :
+							<span class="info-nan">{{d.introduce.manbili}}</span>
+						</div>
+						<div class="fl">
+							<div :style="{width:(100-d.introduce.manbili)+'%'}"></div>
+							<div :style="{width:d.introduce.manbili+'%'}"></div>
+						</div>
+					</ul>
+					<ul class="col-sm-4">
+						<li class="info-male">
+							<info-icon4></info-icon4>
+						</li>
+						<li class="info-nansheng">男生</li>
+					</ul>
+				</div>
+			</div>
+			<div class="info-liteBox">
+				<div class="info-liteTitle">
+					知名校友
+				</div>
+				<div class="info-friend row">
+					<ul v-for="item of d.report.school_person" class="col-sm-6 br bb">
+						<li class="info-usename">{{item.username}}</li>
+						<li>{{item.title}}</li>
+					</ul>
+				</div>
+			</div>
+			<div class="info-liteBox">
+				<div class="info-liteTitle">
+					校园风光
+				</div>
+				<div class="info-intro bd row info-schoolimg">
+
+				</div>
+			</div>
+		</div>
+		<div class="jcyui-hide info-box info-jiuye">
+			<div class="info-liteBox">
+				<div class="info-liteTitle">就业前景概况</div>
+				<div class="row">
+					<div class="info-liteBox-box col-lg-3">
+						<info-icon0></info-icon0>
+						<div>
+							<info-icon1></info-icon1>
+						</div>
+						<div>NO.{{d.base_data.rank}}</div>
+						<div>薪酬排名</div>
+					</div>
+					<div class="info-liteBox-box col-lg-3">
+						<info-icon0></info-icon0>
+						<div>
+							<info-icon2></info-icon2>
+						</div>
+						<div>￥{{d.report.salary.self.six}}</div>
+						<div>毕业半年薪资</div>
+					</div>
+					<div class="info-liteBox-box col-lg-3">
+						<info-icon0></info-icon0>
+						<div class="cirpro">
+						</div>
+						<div>{{d.report.trade.trade_name}}</div>
+						<div>最多去向行业</div>
+					</div>
+					<div class="info-liteBox-box col-lg-3">
+						<info-icon0></info-icon0>
+						<div class="cirpro2"></div>
+						<div>{{d.report.area.area_name}}</div>
+						<div>最多去向城市</div>
+					</div>
+				</div>
+			</div>
+			<div class="info-liteBox">
+				<div class="info-liteTitle">毕业生就业薪酬统计</div>
+				<div class="row moneyDis" style="width:1110px; height:500px;">
+					
+						
+				</div>
+			</div>
+			<div class="info-liteBox zhuanye">
+				<div class="info-liteTitle ">专业就业报告</div>
+				<div class="row">
+					<div class="row">
+						<div class="col-lg-4">专业名称</div>
+						<div class="col-lg-4">毕业5年月薪</div>
+						<div class="col-lg-4">最多去向行业</div>
+					</div>
+					<div class="row info-majorlist" @layclick="schoolToMajor(item.major_id)" v-for='(item,key) in report'>
+						<div class="col-lg-4">{{item.major_name}}</div>
+						<div class="col-lg-4">{{item.five}}</div>
+						<div class="col-lg-4">{{item.trade.trade_name}}</div>
+					</div>
+				</div>
+			</div>
+			<div class="info-liteBox">
+				<div class="info-liteTitle">毕业生行业分布</div>
+				<div class="row graduate" style="width:1110px;height:500px;"></div>
+				<div style="width:1110px;box-sizing:border-box;text-align: right;padding-right:65px;">单位：%</div>
+			</div>
+			<div class="info-liteBox ">
+				<div class="info-liteTitle">毕业生流向城市分布</div>
+				<div class="info-to-city">
+					<ul class="col-lg-6">
+						<li>{{d.report.area.local_area}}%</li>
+						<li>留在学校所在地区({{d.report.area.area_name}})</li>
+					</ul>
+					<ul class="col-lg-6">
+						<li>{{d.report.area.bili}}%</li>
+						<li>去北上广深</li>
+					</ul>
+					<div class="info-pro">
+						<div v-for="item of d.report.area.max_area" :style="{flex:item.bili}"></div>
+					</div>
+					<div class="info-pro-text">
+						<div v-for="item of d.report.area.max_area" :style="{flex:item.bili}">{{item.area_name}}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+<script>
+	'use strict';
+
+function ajaxSchool(type, id) {
+	var that = this;
+	base.ajax({ //发送队列ajax
+		url: [base.api(47), base.api(47), base.api(47)],
+		baseData: {
+			school_id: id
+		},
+		data: [{
+			method: 'introduce'
+		}, {
+			method: 'enroll'
+		}, {
+			method: 'report'
+		}],
+		success: function success(d) {
+			that.d = d;
+			infoChart(d, type, id);
+			that.d.flex = [63, 12, 5, 3];
+			that.d.name = ['北京', '北京', '北京', '北京'];
+			carousel('.info-schoolimg', d);
+		}
+	});
+}
+module['info-school-container'] = { //主内容盒子
+	props: ['type', 'd'],
+	template: template,
+	data: function data() {
+		return {
+			t: {
+				button: ['录取概率', '学校简介', '就业报告'],
+				nodata: '你看到的是假的',
+				index: 0
+			},
+			schoolId:null,
+			lowest:[],
+			report:[]
+		};
+	},
+	methods: {
+		button: function button(e) {
+			$(e.target).addClass('info-active').siblings('.info-toggleshow').removeClass('info-active');
+		},
+		toSch: function toSch(e) {
+			window.open('http://' + e);
+		},
+		seeMore: function seeMore(e) {
+			if ($(e.target).html() === '收起') {
+				$('.info-introduce').css('height', '245px');
+				$(e.target).html('查看更多');
+			} else {
+				$('.info-introduce').css('height', 'auto');
+				$(e.target).html('收起');
+			}
+		},
+		schoolToMajor: function schoolToMajor(id) {
+			location.href = href + '?major-id=' + id;
+		}
+	},
+	created: function created() {
+		ajaxSchool.call(this);
+	},
+	mounted: function mounted() {
+		console.log(this.$router)
+		$.ajax({
+			url:'http://test.api.gaiwenkeji.com/?service=App.School.Detail',
+			dataType:'json',
+			type:'post',
+			data:{
+				type:2,
+				id:6
+			},
+			success:function(d){
+				console.log(d);
+				var arr=[];
+				for(var key in d.data.data.intro.picarr){
+					arr.push(d.data.data.intro.picarr[key].school_src)
+				}
+				jcy.jcyui('.info-schoolimg').carousel({ //调用轮播插件
+					skin: 1,
+					images: arr,
+					hover: function hover(e) {
+						var that = this;
+						var tpl = '<div class="info-imgbot">校门</div>';
+						jcy(that).html(tpl);
+						jcy('.info-imgbot').removeClass('active');
+						setTimeout(function () {
+							jcy(that).find('.info-imgbot').addClass('active');
+						}, 20);
+					},
+					click: function click(url) {
+						jcy.useJs('jcyer', function () {
+							jcy.jcyer(this).imgShade({
+								url: url
+							});
+						});
+					}
+				});
+			}
+		})
+		
+		
+		
+		this.$http.post(base.api(9),{school_id: id}).then(d=>{	
+			this.lowest = d.data.data[1][1];
+		})
+		
+		this.$http.post(base.api(7),{school_id: id,page: 1}).then(d=>{	
+			this.report = d.data.data;
+		})
+
+	}
+};
+</script>

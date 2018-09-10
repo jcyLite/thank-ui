@@ -1,0 +1,105 @@
+<template>
+	<div id="major-school" class="major-school">
+		<div class="ms-box">
+			<div class="select-item">
+				<div class="percent percent-area">专业类型:</div>
+				<div class="per-cell per-cell-2">
+					<div class="area w-area" v-for='(major,index) of majors'>
+						<span @layclick=select($event,index) :type=major.datavalue :datavalue=major.datavalue :class='{active:index==sh}'>{{major.dataname}}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="ms-major">
+			<no-data v-show=no_data_major></no-data>
+			<ul @layclick='major_details($event)'>
+				<li v-for='profession of professions'>
+					<span class="ms-generic" :major-id=profession.id>{{profession.major_name}}</span>
+					<span class="ms-course">所属学科：
+						<span>{{profession.xueke}}-{{profession.kemu}}</span>
+					</span>
+					<br />
+					<span class="ma-monthly">毕业5年月薪：
+						<span>{{profession.five==null?"暂无":"&yen;"+profession.five}}</span>
+					</span>
+					<span class="ms-maximum">最多去向行业：
+						<span>{{profession.bili==0?"暂无":profession.bili+"%"}}{{profession.trade_name==null?"":profession.trade_name}}</span>
+					</span>
+				</li>
+			</ul>
+		</div>
+		<div class='page' @layclick=page($event)>
+			<a href='#top' class="major">上一页</a>
+			<a href='#top' value='+' class="major">下一页</a>
+		</div>
+	</div>
+</template>
+<script>
+	'use strict';
+
+module['recommond-seemajor'] = {
+	template: template,
+	data: function data() {
+		return {
+			majors: null, // 筛选
+			no_data_major: false,
+			major_opt:{
+				page:1,
+				class:null
+			},
+			sh:0,
+			professions: null, // 看就业选专业
+			current_major_schools: null
+		};
+	},
+	methods: {
+		select: function select(e,i) {
+			var url = base.api(48);
+			var _this=this;
+			var tar=e.target;
+			this.sh=i;
+			_this.major_opt.page = 1;
+			_this.current_major_schools = [];
+			if(tar.getAttribute('datavalue')) _this.major_opt.class = tar.getAttribute('datavalue')
+			base.request(url, _this.major_opt, function(data){
+				_this.no_data_major = data.data.length==0
+				_this.current_major_schools = {1: data.data}
+				_this.professions = data.data
+			})
+		},
+		major_details: function major_details(e) {
+			this.$router.push({
+				path:'/info',
+				query:{
+					'major-id':e.target.getAttribute('major-id'),
+					'type':'collage',
+					'id':$('.neibu_tab li.active').index()
+				}
+			})
+		},
+		page: function page(e) {
+			this.$emit('page', e);
+		}
+	},
+	created: function created() {
+		var _this2 = this;
+
+		var _this = this;
+		var major = new Promise(function (res, rej) {
+			return base.request(base.api(36), { group: 'major', level: 1 }, function (data) {
+				return res(data);
+			});
+		}),
+		    // 专业
+		profession = new Promise(function (res, rej) {
+			return base.request(base.api(48), _this.major_opt, function (data) {
+				return res(data);
+			});
+		});
+		Promise.all([major, profession]).then(function (data) {
+			_this2.majors = data[0].data, _this2.professions = data[1].data;
+			_this2.current_major_schools = { 1: _this2.professions };
+		});
+	}
+};
+</script>

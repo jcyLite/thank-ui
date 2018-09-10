@@ -1,0 +1,30 @@
+<template>
+	<ul class="r-school-entry">
+		<div>
+			<span class="r-left">排名</span>
+			<span class="r-center">学校名称</span>
+			<span class="r-center">所在地</span>
+			<span class="r-right">类型</span>
+		</div>
+		<li style="cursor:pointer;" @layclick="toSchool(school.id)" v-for='(school, index) of rank_schools'>
+			<span class="r-left" :class='{"first":index==0, "second":index==1, "third":index==2}'>{{school.ranking}}</span>
+			<span class="r-center">{{school.school_name}}</span>
+			<span class="r-content">{{school.city_name}}</span>
+			<span class="r-right">{{school.category}}</span>
+		</li>
+	</ul>
+</template>
+<script>
+	'use strict';
+
+module['rank-school'] = {
+	props: ['rank_schools'],
+	template: template,
+	methods: {
+		toSchool: function toSchool(e) {
+			this.$router.push({ path: '/info?school-id=' + e + '&info&index=2' });
+			//				window.open('info.html?school-id=' + e+'&info&2');
+		}
+	}
+};
+</script>

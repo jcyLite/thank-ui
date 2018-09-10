@@ -1,0 +1,25 @@
+<template>
+	<div class="container">
+		<index-carousel></index-carousel>
+		<index-service></index-service>
+		<index-morefunction></index-morefunction>
+		<index-collage></index-collage>
+		<index-read></index-read>
+		<base-tips></base-tips>
+	</div>
+</template>
+<script>
+	//首页模块组
+	module.index={ //主页面主体
+		template: template,
+		components:{
+			'index-carousel':require('index-carousel'),
+			'index-service':require('index-service'),
+			'index-morefunction':require('index-morefunction'),
+			'index-collage':require('index-collage'),
+			'index-read':require('index-read'),
+			'base-tips':require('base-tips')
+		}
+	};
+	
+</script>

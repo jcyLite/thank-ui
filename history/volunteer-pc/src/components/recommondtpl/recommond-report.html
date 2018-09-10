@@ -1,0 +1,114 @@
+<template>
+	<div id="report" class="report">
+		<div class="r-score">663<span>分</span></div>
+		<h1>成绩分析报告</h1>
+		<canvas class="mycanvas" id="mycanvas" width="365" height ="90">
+		</canvas>
+		<div class="r-substance">你的成绩在2017年高考中打败了
+			<span>91.2%</span>的江苏考生
+		</div>
+		<div class="r-school">录取人数最多的5所
+			<span>学校</span>
+		</div>
+		<ul class="r-school-entry">
+			<div>
+				<span class="r-left">排名</span>
+				<span class="r-center">学校名称</span>
+				<span class="r-right">考生数量</span>
+			</div>
+			<li>
+				<span class="r-left">1</span>
+				<span class="r-center">苏州大学</span>
+				<span class="r-right"><span style="width:165px;"></span>450</span>
+			</li>
+			<li>
+				<span class="r-left">2</span>
+				<span class="r-center">苏州大学</span>
+				<span class="r-right"><span style="width:165px;"></span>450</span>
+			</li>
+			<li>
+				<span class="r-left">3</span>
+				<span class="r-center">苏州大学</span>
+				<span class="r-right"><span style="width:165px;"></span>450</span>
+			</li>
+		</ul>
+		<div class="r-school">录取人数最多的5个城市
+		</div>
+		<ul class="r-city-name">
+			<div>
+				<span class="r-left">排名</span>
+				<span class="r-right">考生数量</span>
+			</div>
+			<li>
+				<span class="r-left">南京市</span>
+				<div class="r-right">
+					<div class="scale-box">
+						<span style="width: 66%;"></span>
+					</div>66%
+				</div>
+			</li>
+			<li>
+				<span class="r-left">苏州市</span>
+				<div class="r-right">
+					<div class="scale-box">
+						<span style="width: 99%;"></span>
+					</div>99%
+				</div>
+			</li>
+		</ul>
+	</div>
+</template>
+<script>
+	function canvasMycanvas() {
+	var canvas = $("#mycanvas")[0].getContext('2d');
+	canvas.moveTo(68, 72);
+	canvas.lineTo(87, 72);
+	canvas.lineTo(87, 90);
+	canvas.lineTo(68, 72);
+	canvas.strokeStyle = "#e5e5e5";
+	canvas.fillStyle = '#e5e5e5';
+	canvas.fill();
+	canvas.stroke();
+	canvas.moveTo(297, 72);
+	canvas.lineTo(278, 72);
+	canvas.lineTo(278, 90);
+	canvas.lineTo(297, 72);
+	canvas.strokeStyle = "#e5e5e5";
+	canvas.fillStyle = '#e5e5e5';
+	canvas.fill();
+	canvas.stroke();
+	canvas.save();
+	canvas.moveTo(0, 39);
+	canvas.lineTo(87, 39);
+	canvas.lineTo(87, 89);
+	canvas.lineTo(0, 89);
+	canvas.lineTo(12, 70);
+	canvas.lineTo(0, 39);
+	canvas.strokeStyle = "#fe6a23";
+	canvas.fillStyle = '#fffaf8';
+	canvas.fill();
+	canvas.stroke();
+	canvas.moveTo(365, 39);
+	canvas.lineTo(278, 39);
+	canvas.lineTo(278, 89);
+	canvas.lineTo(365, 89);
+	canvas.lineTo(353, 70);
+	canvas.lineTo(365, 39);
+	canvas.strokeStyle = "#fe6a23";
+	canvas.fillStyle = '#fffaf8';
+	canvas.fill();
+	canvas.stroke();
+	canvas.fillRect(69, 0, 229, 72);
+	canvas.lineWidth = 1;
+	canvas.strokeRect(69, 1, 229, 72);
+	canvas.restore();
+}
+module['recommond-report'] = {
+	template: template,
+	methods: {},
+	created: function created() {},
+	mounted: function mounted() {
+		$(canvasMycanvas);
+	}
+};
+</script>

@@ -1,0 +1,101 @@
+<template>
+	<div class="foot">
+		<div class="footBox banxin">
+			<div class="left fll">
+				<ul v-for="item of list">
+					<li>{{item.title}}</li>
+					<li v-for="i of item.list">
+						<router-link v-if="!i.isAll" :to="{path:i.href,query:{id:i.id?i.id:''}}">
+							{{i.content}}
+						</router-link>
+						<a v-if="i.isAll" :href="i.href">
+							{{i.content}}
+						</a>
+					</li>
+				</ul>
+				<ul>
+					<li>联系我们</li>
+					<li>
+						<a href="javascript:void(0)">江苏盖闻网络科技有限公司</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)"><img :src="@/assets/images/phone.png" alt="">025-8666-3773 &nbsp;&nbsp;400-8188-555</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)"><img :src="@/assets/images/email.png" alt="">gaiwen@company.com</a>
+					</li>
+				</ul>
+			</div>
+			<div class="right flr">
+				<div v-for="item of download" class="fll">
+					<p>{{item.title}}</p>
+					<img :src="item.src" alt="">
+				</div>
+			</div>
+		</div>
+		<p>第一志愿版权所有：江苏盖闻网络科技有限公司</p>
+	</div>
+</template>
+<script>
+	module['base-footer'] = {
+		template: template,
+		data: function data() {
+			var href = location.href;
+			var boo = href.indexOf('index.html') > -1 || href.indexOf('html') === -1;
+			var link = boo ? './view' : '.';
+			return {
+				icon: {
+					link: link,
+					phone: img.phone,
+					email: img.email
+				},
+				list: [{
+					title: '第一志愿',
+					list: [{
+						content: '购买VIP',
+						href: "/vip"
+					}, {
+						content: '激活VIP',
+						href:'/vip'
+					}]
+				}, {
+					title: '主要功能',
+					list: [{
+						content: '按分推荐大学',
+						href:'/recommond',
+						id:0
+					}, {
+						content: '大学录取概率',
+						href: '/recommond',
+						id:3
+					}, {
+						content: '模拟填志愿',
+						href: '/recommond',
+						id:2
+					}, {
+						content: '智能填志愿',
+						href: '/recommond',
+						id:1
+					}]
+				}, {
+					title: '关于我们',
+					list: [{
+						content: '公司简介',
+						isAll:true,
+						href: 'http://www.gaiwenkeji.com/'
+					}, {
+						content: '产品说明',
+						href: '/vip'
+					}]
+				}],
+				download: [{
+					title: 'IOS下载',
+					src: img.qr
+				}, {
+					title: "安卓下载",
+					src: img.qr
+				}]
+			};
+		}
+	};
+</script>

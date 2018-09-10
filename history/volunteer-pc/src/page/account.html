@@ -1,0 +1,289 @@
+<template>
+	<div class="container banxin clearfix" v-cloak>
+		<base-topnav :topnav=topnav></base-topnav>
+		<base-leftnav @catalog=catalog :leftnav=leftnav></base-leftnav>
+		<div class="tab-right">
+			<!-- 我的关注 -->
+			<div v-if="boxShow==0">
+				<div class="top-tab">
+					<ul class="clearfix" @layclick=follow($event) id="my_follow">
+						<li style="cursor: pointer;" class="w-hover">关注的院校</li>
+						<li style="cursor: pointer;" class="li-conter">关注的专业</li>
+						<li style="cursor: pointer;">关注的职业</li>
+					</ul>
+				</div>
+				<div class="follow-substance">
+					<ol class="school-ol">
+						<transition v-for="site in sites" name=fade>
+							<li class="clearfix">
+								<div class="school-img">
+									<img :src="logo+site.logo " class="imgs" />
+								</div>
+								<div class="school-substance">
+									<span class="school">{{site.sname}}</span>
+									<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAOCAMAAAAsYw3eAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAABLUExURUxpcWZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZrofb6wAAAAZdFJOUwDwv8gNzYrD6Xe0GwRQlP7V9mhAXamD3yx5+O4DAAAAdElEQVQI1zWOWQ7DMBBCn7eMd2dx4t7/pLWrlI8BCQQD8IgxZuOH3ZScix55ahGwFqKD64BNpMJRiJVTpeQDm8Z1Rp8BTzfLqTOt7+VciiyiXUaV2fzAeUIYszq1tNZs+ywKal3/vuAi3DsvjhDaX2O9t4u/gZAD2SWBbsEAAAAASUVORK5CYII=" alt="" class="image" />
+									<span class="city">{{site.dataname}}</span>
+									<br />
+									<span class="ranking1" v-if='show' v-if='site.stype.length>0' v-for='type of site.stype' v-show=type>{{type}}</span>
+									<div class="placing-school">
+										<span class="placing">综合排名：<i>{{site.ranking}}</i></span>
+										<span class="like">
+											<span class="school-attention"
+									            v-if='show'
+									            :class='site.status==0? "icon-notcollect":"icon-collect"'
+									            :follow_id='site.id' @layclick=delete_follow($event)>
+								            </span>
+										</span>
+									</div>
+								</div>
+							</li>
+						</transition>
+					</ol>
+					<no-data :no_data="no_data_school"></no-data>
+				</div>
+				<div class="follow-substance" style="display: none;">
+					<transition name=bounce>
+						<ol class="major-ol">
+							<li v-for="content in contents" class="clearfix">
+								<span class="major">{{content.majorname}}</span>
+								<span>{{content.mtype}}</span>
+								<br />
+								<span>所属学科：</span>
+								<span class="subject">{{content.dataname}}</span>
+								<br />
+								<span>毕业5年后薪资约：</span>
+								<span class="salary">{{content.five}}</span>
+								<div class="placing-major">
+									<span class="school-attention" v-if='show' :class='content.status==0? "icon-notcollect":"icon-collect"' :follow_id='content.id' @layclick=delete_follow($event)>
+					            </span>
+								</div>
+							</li>
+						</ol>
+					</transition>
+					<no-data :no_data="no_data_major"></no-data>
+				</div>
+				<div class="follow-substance" style="display: none;">
+					<transition name=bounce>
+						<ol class="occupation-ol">
+							<li v-for="major in majors" class="clearfix" v-show=boo>
+								<span class="occupation">{{major.job}}</span>
+								<br />
+								<span>所属行业：</span>
+								<span class="subject">{{major.dataname}}</span>
+								<div class="placing-occupation">
+									<span class="school-attention" v-if='show' :class='major.status==0? "icon-notcollect":"icon-collect"' :follow_id='major.id' @layclick=delete_follow($event)>
+						            </span>
+								</div>
+							</li>
+						</ol>
+					</transition>
+					<no-data :no_data="no_data_job"></no-data>
+				</div>
+			</div>
+			<!-- 我的志愿表 -->
+			<div v-if="boxShow==1">
+				<div class="top-table">
+					已有2份志愿表
+					<span class="append">添加志愿表</span>
+				</div>
+				<div class="my-table">
+					<ul class="my-table-ul">
+						<li v-for="voluntary in voluntarys">
+							<span class="num">{{voluntary.title}}</span>
+							<br />
+							<span>备注：{{voluntary.rationality==null?"暂无":voluntary.rationality}}</span>
+							<br />
+							<span class="time">更新时间：{{voluntary.update_time}}</span>
+							<div class="amputate" :voluntary_id='voluntary.id' @layclick=delete_voluntary($event)>
+								<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAUCAMAAACzvE1FAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAABIUExURUxpcf5qI/5qI/5qI/5qI/5qI/5qI/5qI/5qI/5qI/5qI/5qI/5qI/5qI/5qI/5qI/5qI/5qI/5qI/5qI/5qI/5qI/5qI/5qI3WBz5sAAAAXdFJOUwCtFkahuOBNOD6OzA4J8orUWVGEKWvD07iFWAAAAHtJREFUGNOlkNkOwyAMBJcbF0ICTbv//6eFVEoTXjvygxn5QAYGUaWUngtOWKxVfH0fUUS45qzperbjzTvgLMosdhOvGECLtCahiql9aN+Sbh0VUGTQXEEH39NDmGUSveLxrzB53vITDXCk9yzbiKMiXD+6jasFe9Kv+AHNABAhhuE5ggAAAABJRU5ErkJggg==" :voluntary_id='voluntary.id' /> 删除
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<base-forget></base-forget>
+		<base-tips></base-tips>
+	</div>
+</template>
+<script>
+	'use strict';
+	// base64图片
+	// 垃圾桶
+	var garbage_can = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAUCAYAAACEYr13AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyhpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTMyIDc5LjE1OTI4NCwgMjAxNi8wNC8xOS0xMzoxMzo0MCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUuNSAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6REE5RDMyRkNDRjVDMTFFNzkwMjVCQjhGNTJEMEYwQjAiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6REE5RDMyRkRDRjVDMTFFNzkwMjVCQjhGNTJEMEYwQjAiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpEQTlEMzJGQUNGNUMxMUU3OTAyNUJCOEY1MkQwRjBCMCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpEQTlEMzJGQkNGNUMxMUU3OTAyNUJCOEY1MkQwRjBCMCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PgQmOVEAAAEySURBVHjaYvzvZsGABVgDcREQywPxfyjeBcRNQPwLWSELA3ZwEIh/AvFKIP4HxNxAXA3Ez4F4KjYDrKHsf1A+M1RhO5TPCsThQBwAxBeBmBGq5g0j0AuHgQwbBjIBEyWageA3yICPFBjACvK3GTS0v0BDm1gACgc+kAG3gPg7ECtBJQShAfoaGvp80NBnA2JhIH6JFNg7YbGwHoiNyfBCDBOU8RBJ0AeIxaHsXqhTQWAvlP0ESe0nJmwhC8Sfoey/SOI/ofQv9GhEBxxAzIOUgNATHTMhA0hOSIPPgF/QdAECf5DEYQH6D5sBrFgUMqClTCYsgcjCgpQsYWAOUlQlA7E3lG0HxJeAWAY5ahmhJRIo8Wwm0fvXgNgU5oItQOwPtY0b3Z9oGQgk9xha2HwDCDAAzM09xKY/dJgAAAAASUVORK5CYII=';
+	module['account'] = {
+		template: template,
+		components: {
+			'base-topnav': require('base-topnav'),
+			'base-leftnav': require('base-leftnav'),
+			'base-tips':require('base-tips'),
+			'base-forget':require('base-forget')
+		},
+		data: function data() {
+			return {
+				boxShow:0,
+				topnav: [{
+					name: '首页',
+					router: '/index'
+				}, {
+					name: '我的账户',
+					router: '/account'
+				}, {
+					name: '我的关注',
+					router: '/account?index=0'
+				}],
+				leftnav: {
+					title: '我的账户',
+					listitem: ['我的关注', '我的志愿表']
+				},
+				logo: null,
+				listItem: null,
+				show: true,
+				current: '升级VIP',
+				editor: editor,
+				sites: null,
+				contents: null,
+				majors: null,
+				voluntarys: null,
+				boo: true,
+				no_data_school: false,
+				no_data_major: false,
+				no_data_job: false,
+				status: 1
+			};
+		},
+
+		methods: {
+			catalog: function catalog(e,i) {
+				var tar = e.target;
+				if(i==2) {
+					$('#tip').show();
+					return;
+				}else if(i==1){
+					$('#tips').show();
+				}
+				var a=['我的关注','我的志愿表','修改密码']
+				this.topnav[2].name=a[i];
+			},
+			mask: function mask() {
+				$('#tips').show();
+			},
+			follow: function follow(e) {
+				var tar = e.target;
+				if(tar.nodeName == 'LI') {
+					if($(tar).hasClass('w-hover')) return;
+					$(tar).parents('ul.clearfix').find('.w-hover').removeClass('w-hover');
+					$(tar).addClass('w-hover');
+					$(".follow-substance").hide();
+					$(".follow-substance").eq($(tar).index()).show();
+				}
+			},
+
+			/* 删除我的志愿表 */
+			delete_voluntary: function delete_voluntary(e) {
+				var tar = e.target;
+				var voluntary_id = $(tar).attr("voluntary_id");
+				base.request(base.api(14), {
+					wish_id: voluntary_id
+				}, function(data) {});
+				$(tar).parents("li").remove();
+			},
+
+			/* 删除我的关注 */
+			delete_follow: function delete_follow(e) {
+				var tar = e.target;
+				var _this = this;
+				var follow_id = $(tar).attr("follow_id");
+				this.boo = false;
+				var index = $("#my_follow li").filter('.w-hover').index();
+				base.request(base.api(31), {
+					id: follow_id
+				}, function(data) {
+					return data;
+				}, function(data) {
+					if(data.code === 2) {
+						if(index == 0) {
+							_this.sites.splice($(tar).parents("li").index(), 1);
+							_this.no_data_school = _this.sites.length == 0;
+						} else if(index == 1) {
+							_this.contents.splice($(tar).parents("li").index(), 1);
+							_this.no_data_major = _this.contents.length == 0;
+						} else if(index == 2) {
+							_this.majors.splice($(tar).parents("li").index(), 1);
+							_this.no_data_job = _this.majors.length == 0;
+						};
+					}
+				});
+			}
+		},
+		created: function created() {
+			var that=this;
+			this.logo = base.api('logo');
+			$.ajax({
+				url:'http://api.gaiwenkeji.com/Api/User/getMyAttention/sid/5f004a0937e66f605fbd844391c02119'
+				,dataType:'json'
+				,type:'post'
+				,data:{
+					sid:sessionStorage.getItem('sid')
+				}
+				,success:function(data){
+					that.sites=data.data.school;
+					that.major=data.data.major;
+					that.contents=data.data.job;
+				}
+			})
+//			var _this2 = this;
+//			var listItem = ['我的关注', '我的志愿表', '修改密码'];
+//			this.tab = ['薪酬最高', '本科比例最高', '女生最多'];
+//			base.request(base.api(6), {
+//				group: 'schoolArea'
+//			}, function(data) {
+//				_this2.areas = data.data.reverse();
+//				_this2.areas.forEach(function(area) {
+//					if(area.dataname.length > 4) area.dataname = area.dataname.slice(0, 3);
+//					if(area.dataname.length != 2 && area.dataname !== '内蒙古' && area.dataname !== '黑龙江') area.dataname = area.dataname.slice(0, -1);
+//				});
+//			});
+//			// 地区
+//			base.request(base.api(6), {
+//				group: 'schoolCategory'
+//			}, function(data) {
+//				_this2.categorys = data.data;
+//			});
+//			// 类型
+//			base.request(base.api(52), {}, function(data) {
+//				_this2.conditions = data.data;
+//			});
+//			// 筛选条件
+//			base.request(base.api(65), {}, function(data) {
+//				_this2.schools = data.data;
+//			});
+//			// 学院
+//			this.listItem = listItem;
+//			
+		},
+		activated:function(){
+			var _this = this;
+			// 我的关注
+			console.log(_this);
+			base.request(base.api(29), {}, function(data) {
+				_this.sites = data.data.school;
+				_this.contents = data.data.major;
+				_this.majors = data.data.job;
+				_this.no_data_school = _this.sites.length == 0;
+				_this.no_data_major = _this.contents.length == 0;
+				_this.no_data_job = _this.majors.length == 0;
+			});
+			base.request(base.api(13), {}, function(data) {
+				_this.voluntarys = data.data;
+			});
+		},
+		mounted: function mounted() {
+			$('#tips-close,.no-download').on('click', function(e) {
+				// 模态框
+				e.preventDefault();
+				$('#tips').hide();
+			});
+		}
+	};
+</script>

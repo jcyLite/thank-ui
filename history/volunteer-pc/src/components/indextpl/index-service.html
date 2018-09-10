@@ -1,0 +1,118 @@
+<template>
+	<div class="service">
+		<div class="ser-box banxin ">
+			<h3 class="title">精品服务</h3>
+			<div class="four-box">
+				<div class="fourb active">
+					<div class="active onediv">
+						<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAA4CAMAAABzLa46AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAA5UExURUxpcQBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbh2jerAAAAASdFJOUwCoIBByKQV86djflEw992LJAsINlw4AAADTSURBVEjH7dfLDoMgEAVQngUZhtf/f2yTai0Ya+OYxs3c5Q05cYEwCHGQKIN/JUgUxOTWJdIMlXokqesf0lomIW5EDCN/RzDOQTqC5b2BkrREBPs96C0JqXJogYSoMLThQUGsH1rPCCN3IOhgjkMyAnu/1Ekk794N55A6DX15UBA99kExwggjjNyJ1LJ7sm0m6mW415tjsB6fsePyopfatC/vBvjMYQlW23ZKWd8HtbsakusvKgQ5B/qxUpullVn/XMzZPNKMuxijxDggkwIiT5cTn4j7eCfHS+QZAAAAAElFTkSuQmCC" alt=""  class="display-none onePic">
+						<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAA4CAMAAABzLa46AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAABCUExURUxpcf///////////////////////////////////////////////////////////////////////////////////zezJKIAAAAVdFJOUwAppyByfQXp2HsQ35pJPYxZ9GjJuXPamXIAAADXSURBVEjH7dfJDoMgFAVQRlHmQf7/V5tUa3hG2/SRphvu8oYcXegDCHkTx4x6xjBPkIm1ScQZPLVI4igk19r/KhIiYiA/R7zb4vGIW18fUFopEvHtN6goDllBa1EIN6A1EwahCrRqIAP5B+KD3RI8GglNHZAI3BwyDplBXyYMohP8uzkKUQMZyEAGcjdPlu8mW7mcbBEibn/iaQxe3wSOGQuXF73X4u6wfjntCW2UctwPJtsslu1G5QPbEtpjpc57a7P+uHjkdEkTcumKFJyw2h1L4tyd+ABkrooZ/Vw2/AAAAABJRU5ErkJggg==" alt="" class="twoPic">
+						<h3 class="active">测大学录取概率</h3>
+						<p class="active">精准预测院校投档分和录取最低分</p>
+					</div>
+					<div>
+						<div>
+							<p>预测目标院校录取概率</p>
+						</div>
+						<a @layclick="toTy(0)">立即体验</a>
+					</div>
+				</div> 
+				<div class="fourb">
+					<div class="onediv">
+						<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAMAAAANIilAAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAA5UExURUxpcQBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbh2jerAAAAASdFJOUwA04Z7eLoFrq7TwFQf3XyHMSm8sS9MAAAFPSURBVEjH7dfdsoYQFAZgRSgi6/4vdjefEvksP7OP9uz3rDHPxEJESHesEY4MxmwAIPWQFfDJocdtpBc06pu9tTkAjYiwg1QbgHZMlv1pMMRCM9YvLeNRVDCfl1R7PE9YVKjVlmr3wax1jhJNSSu+RhdpSVpxqEzQkrTiqKpeO+rXeQNOZsTrp4F12ETXcb4SbDPO7aFacW5l85hRW8G4xXHForhmMVy1CK7bMi5be0ahGHnvfD5wDGN93irYYeOtvVlRpFbVbhNarjOKp0ync4ThBehLv+YXw/RuooW1gWEJqc7WFYYZJDqzGJ58X2+9kh7MIdaCdGEGie7CyzO7vBtziI/+ThwuKGwVqhP7W8a+Clv+HBfx2etNGouePyWsV2lU7cAt4qps2s//+C9g9nt4X7uyB+xgKH6r62PEbte/jWIDNtwgtaCyL/zaez9KYFPvCSWNowAAAABJRU5ErkJggg==" alt="" class="onePic">
+						<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAABFUExURUxpcf///////////////////////////////////////////////////////////////////////////////////////4aDdakAAAAWdFJOUwAs82c7rQ3lmGQHNxvQUIzSRcSidNwBNt3vAAABWUlEQVRIx+3Wy3aEIAwG4DhVAXEUb3n/R62jFUFNCN1003/hOePxGy5RACAvRusO8tOMuKbKd2/E38jCIYay6Csm7QlnxFAaZGODJvvztoGCd1jAoxzDf+FabPY++6cXmNbrZL7I1LtzqCKpQa/XTlSHSLYbNLL6BXIdgAAedT9lCRLonZfd0bIRukNuSbXYuKg6p0zAi1tlI4JRP7d0ohbvzorGeHclSCDrGMj1k4MJR8JbHS6OgklHQNIVzrmxJmFNjs9+ftBwIevwWaJeNDRk/RIQOmpeGNgOVxnOJwMnvMioDgxUGMu4fjRsXhjJS91pOGyPe3l9X2ioMZCqBDFUGMgaxLD0kzk8b64U1OEWmAOVd+8uB9qfbXO2LWR1VW+qYA4Qz7BeRtPyJw8CtskjS+Kz+od/CDPOvHUEe1sKY00EM/Nq7kuvKNWxjmbGH3VmpzKyTLv7BkunW7nkiWSgAAAAAElFTkSuQmCC" alt="" class="display-none twoPic">
+						<h3>成绩分析报告</h3>
+						<p>扫描以往录取成绩，精准分析</p>
+						<p>成绩录取方向</p>
+					</div>
+					<div>
+						<div>
+							<p>量身定制成绩分析报告</p>
+						</div>
+						<a @layclick="toTy(1)">立即体验</a>
+					</div>
+				</div>
+				<div class="fourb">
+					<div class="onediv">
+						<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAD0AAAA3CAMAAACIJ7K9AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAA5UExURUxpcQBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbh2jerAAAAASdFJOUwAf+95W1Ki3SC2JKAx4P69pmM5FJusAAAEhSURBVEjH7dbbroMgEAVQkDty//+PbZGiTcqghfTkPLifGs2SBsYZEUKIat5IQFdiWGqH4Qsawk9+jmmCo0817+ikzrToaTalU5jSKai1FaUUvqA7EW5G502d0X5KkynNivYy7+L1rC4eWqDvE3ctBzTetRvRy9Tat66XVk4Eff0OvBkK6nwlJdrvWAHS+lX7zzi4ug2g/XZ3ybfDWav81PZohSuIF2jtMlbc25MakfCJWR9rD3e6FYvvSv3UxoxrxxZia+Ex0gizoC4lYvvzTUM6HnUu4UrFP6nzQkRtuND4gXYtL07KP6MLgBV8YjTaemRYNmPuOv8H+u8nsNqnPxvQfnPbm8EC/S5BlJKPU99rbkJHNLE4y28M9WIkPBj0APDGYK7EYAJzAAAAAElFTkSuQmCC" alt="" class="onePic">
+						<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAD0AAAA3CAMAAACIJ7K9AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAABCUExURUxpcf///////////////////////////////////////////////////////////////////////////////////zezJKIAAAAVdFJOUwAf+0q51KhWLbRF3okoDHhpmK3yOZqE4IQAAAErSURBVEjH7dbbroMgEAVQUG4CclH5/19tkdqepAxeJjnpg/vJxKzSwC5TQgiRVnxlEoEcieOpHk4PaAg/+T6WCY7d1aKhk9rTrKU5SqeA0imosRalFD2gG2Eao/OmYvSE0galedGDzrt4PKOOH83I+cS31hc0xelu0/2tMXoUhsnXcxDVSFDTOTdItm+sAGn76v4zC9xuB+hpfdvl1wHWC6D95yocQTxDa5exsvz5pEp6+MT8FLc7fLG1eHo39Vs7d11rPhu/FY+bSrgHdamIb883C+lYypQfe7iptNnzeafnCtCFsO3ChcYPtGt5cVO+mewArOATk9FvR0Z1Ne7u+Q/o/5/A6j39+QU9rG5Yr/AgzyWwUvmI+r+mEToSxOI8/2LkxIbzYSI48gA4ZW/Lcm1p2QAAAABJRU5ErkJggg==" alt="" class="display-none twoPic">
+						<h3>模拟填志愿</h3>
+						<p>实战模拟高考志愿填报</p>
+						<p>精准定位目标大学</p>
+					</div>
+					<div>
+						<div>
+							<p>智能填报志愿不落榜</p>
+							<p>提前熟悉填报流程</p>
+						</div>
+						<a @layclick="toTy(2)">立即体验</a>
+					</div>
+				</div>
+				<div class="fourb">
+					<div class="onediv">
+						<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADYAAAA9CAMAAADRXGosAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAA5UExURUxpcQBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbgBpbh2jerAAAAASdFJOUwD444wp1Gei8Vgf/LObc8QPQXZL35wAAAEpSURBVEjH7ZZbkoQgDACRtwqCuf9hV5HS4DjymJ2t/bB/FCttAFMRQq6RyiwoSWrwAiJiqNAc7IiKZIDgRcrMGDNruOKcrVe3POizGotJ3DowcWCy2hQjp7CfccCKtZBAZTTer3CkAfP+uN9D8PeY3ZFhDwWtAWs23HVmPs8LbKIhGNqrEJUEvtUs1rZlz3DSxhfSbFtymmqeDy9wn2pL5fSnuWTrIFQQrtp7DS9aE92SDciIXyLoW4ROtA5aeLQvaJ2y6gar9KVmS/tFqmX7TP+bGpX9Pe6pkq9qjmcw/6BKTOmP9rQlIsNTJYWazrUg2taC5J8W13U2Osl7xOc7ObZpuk0zLVaHz07lONKUbjkcelpthT4w0PophmN/3TzVUW1Ol7Iden8ArgqcU0xQn7IAAAAASUVORK5CYII=" alt="" class="onePic">
+						<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADYAAAA9CAMAAADRXGosAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAABIUExURUxpcf///////////////////////////////////////////////////////////////////////////////////////////w+vxkAAAAAXdFJOUwClouPUKGdZ8fiPH5txuIWuD0HG6zFPti03eQAAASpJREFUSMftluGOgyAMgFFBERmC6Pr+b3rKPK0bCpjbLUv8/giGL63QVAjxU+ZKa5WVJAVDYYY2CZqCBZoQDBAsSumEEC5YxpiYnnZ8cQ9q7RzE4mR1ULvNK1u3n/NERGtqmmQBjVUTA9KgNWYZT9owrbjj8+js+gnLUuAcsCbdqFbdc14gNxpCoL36zXhduKtJrD32tQNIi/aYFlvNsOYFZrbaWDnVUy7BOnAVhKs2XutJf0YDUqMJp8UulO9q8VzaG7Q6k/kBMuNeTcb2i60W7DPVX2pFWR1jryp5q2YHdoz2au2/Vknwlyn8W0IDXFUSqfFQC+q/oQWV/hZ0K4+hHzuA/pymzlg1vjvFo8ipcOPl0BTJlusDTapn52t/Wp75Wm2Wx6LdpfcHeJXGM9tyNpUAAAAASUVORK5CYII=" alt="" class="display-none twoPic">
+						<h3>智能填志愿</h3>
+						<p>大数据和云计算设计精准推荐</p>
+					</div>
+					<div>
+						<div>
+							<p>高考成绩出来</p>
+							<p>智能填报志愿不落榜</p>
+						</div>
+						<a @layclick="toTy(3)">立即体验</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+<script>
+	"use strict";
+module['index-service'] = {
+	template: template,
+	mounted: function mounted() {
+		$(".fourb").mouseover(function () {
+			$(".fourb").removeClass("active").children().removeClass("active");
+			$(".onePic").show();
+			$(".twoPic").hide();
+			$(this).find(".twoPic").show();
+			$(this).find(".onePic").hide();
+			$(this).find(".onediv").addClass("active");
+			$(".onediv").find("h3").removeClass("active");
+			$(".onediv").find("p").removeClass("active");
+			$(this).find(".onediv").find("h3").addClass("active");
+			$(this).find(".onediv").find("p").addClass("active");
+			$(this).addClass("active");
+		});
+	},
+	methods:{
+		toTy:function(){
+			var arr=[{
+				path:'/recommond',
+				query:{
+					id:3
+				}
+			},{
+				path:'/recommond',
+				query:{
+					id:4
+				}
+			},{
+				path:'/recommond',
+				query:{
+					id:2
+				}
+			},{
+				path:'/recommond',
+				query:{
+					id:1
+				}
+			}]
+			return function(index){
+				this.$router.push(arr[index]);
+			}
+		}()
+	}
+};
+</script>

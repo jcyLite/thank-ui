@@ -1,0 +1,234 @@
+<!--需要传参useRouter-->
+<template>
+	<div id="headBox">
+		<div class="header" id="header">
+    		<div class="headCenter banxin">
+    		    <div class="logo fll">
+    		        <a style="cursor: pointer;" @layclick="toIndex" title="第一志愿">
+    		            <img :src="img_path+'logo.png'" alt="第一志愿">
+    		            第一志愿
+    		        </a>
+    		    </div>
+    		    <div class="tab fll clearfix">
+    		        <ul class="ul-box clearfix">
+    		            <li @layclick="tapRouter($event,'0')" data-index ="0" :class="{'active':topac==1}">
+    		            	<a>院校推荐</a>
+    		            </li>
+    		            <li @layclick="tapRouter($event,1)" data-index = "1" :class="{'active':topac==2}">
+    		            	<a>信息库</a>
+    		            </li>
+    		            <li @layclick="tapRouter($event,2)" data-index = "2" :class="{'active':topac==3}">
+    		            	<a>APP下载</a>
+    		            </li>
+    		            <li @layclick="tapRouter($event,3)" data-index = "3" :class="{'active':topac==4}">
+    		            	<a>成为VIP</a>
+    		            </li>
+    		        </ul>
+    		    </div>
+    		    <!--注册-->
+    		    <div class="search flr">
+    		        <!-- <div class="fll">
+    		            <input type="text" placeholder="搜素专业、学校">
+    		            <a href="">
+    		                <img src="${search}" alt="">
+    		            </a>
+    		        </div> -->
+    		        <div class="flr loginBox" @layclick="login1($event) " v-show = isLoginshow>
+    		            <a href="javascript:void(0)" class="login active login1" style="margin-left:25px;">登录</a>
+    		            <a href="javascript:void(0)" class="login login2">注册</a>
+    		        </div>
+    		        <div class="my-count flr " v-show="ismycountshow" @mouseover="mycount($event)" @mouseout="vanish($event)">
+    		            <a style="cursor: pointer;" @layclick="toMyAccount" :class="{'oactive':topac==5}" class="account">我的账户</a>
+    		            <ul class="my-countlist" v-show = ismycountlistshow >
+    		                <li class="my-countUsername">{{username}}，你好</li>
+    		                <!--<li class="account-list" @mouseover ="accountlist($event)">
+    		                    <a href="" class="clearfix">升级VIP
+    		                        <img :src="vip" alt="" class="firstPic">
+    		                        <img :src="vip1" alt="" class="secondPic display-none">
+    		                    </a>
+    		                </li>-->
+    		                <li class="account-list" @layclick="toMyAccount(0)" @mouseover ="accountlist($event)">
+    		                    <a style="cursor: pointer;" class="clearfix">我的关注
+    		                        <img :src="guanzhu" alt="" class="firstPic">
+    		                        <img :src="guanzhu1" alt="" class="secondPic display-none">
+    		                    </a>
+    		                </li>
+    		                <!--<li class="account-list" @layclick="toMyAccount(1)" @mouseover ="accountlist($event)">
+    		                    <a style="cursor: pointer;" class="clearfix">我的志愿表
+    		                        <img :src="biaodan1" alt="" class="firstPic">
+    		                        <img :src="biaodan" alt="" class="secondPic display-none">
+    		                    </a>
+    		                </li>
+    		                <li class="account-list" @layclick="toMyAccount(2)" @mouseover ="accountlist($event)">
+    		                    <a style="cursor: pointer;"  class="clearfix">修改密码
+    		                        <img :src="xgmm" alt="" class="firstPic">
+    		                        <img :src="xgmm1" alt="" class="secondPic display-none">
+    		                    </a>
+    		                </li>-->
+    		                <li class="account-list" @layclick="logout" @mouseover ="accountlist($event)">
+    		                    <a style="cursor: pointer;" href="" class="clearfix">退出登录
+    		                        <img :src="tuichu" alt="" class="firstPic">
+    		                        <img :src="tuichu1" alt="" class="secondPic display-none">
+    		                    </a>
+    		                </li>
+    		            </ul>
+    		        </div>
+    		    </div>
+    		</div>
+		</div>
+		<!--登陆注册-->
+        <div class="cover-box display-none" id="login">
+            <base-login :username=username :password=password></base-login>
+            <base-register></base-register>
+            <base-forget></base-forget>
+        </div>
+    </div>
+</template>
+<script>
+module['base-header'] = {
+    template: template,
+    components: {
+        'base-login': require('base-login'),
+        'base-register': require('base-register'),
+        'base-forget':require('base-forget')
+    },
+    data: function data() {
+        var href = location.href;
+        var boo = href.indexOf('index.html') > -1 || href.indexOf('html') === -1;
+        var booo = /info\.html/.test(href);
+        return {
+            useRouter: 1,
+            topac: 0,
+            link: boo ? './view' : '.',
+            url: boo ? '.' : '..',
+            img_path: boo ? './src/style/img/' : booo ? '../style/img/' : '../src/style/img/',
+            vip: img.vip,
+            vip1: img.vip1,
+            guanzhu: img.guanzhu,
+            guanzhu1: img.guanzhu1,
+            biaodan: img.biaodan,
+            biaodan1: img.biaodan1,
+            xgmm: img.xgmm,
+            xgmm1: img.xgmm1,
+            tuichu: img.tuichu,
+            tuichu1: img.tuichu1,
+            // loginbox:true,//登录的button按钮的判断能否点击的参数
+            ismycountshow: false, //我的账户的显示与否的参数
+            isLoginshow: true, //登录和注册的框显示与否
+            username: '', //登录时输入的用户名
+            password: '', //登录时输入的密码
+            isChecked: false,
+            ismycountlistshow: false, //我的账户列表显示与隐藏
+            regiterpara: 0 //判断能否点击注册的参数
+        };
+    },
+    methods: {
+        toIndex: function toIndex() {
+            //点击左上角的logo
+            this.$router.push({ path: '/index' });
+        },
+        tapRouter: function tapRouter(e, r) {
+            //点击头部 
+            switch (r) {
+                case '0':
+                    //点击院校推荐
+                    this.$router.push({ path: '/recommond' });
+                    this.topac = 1;
+                    break;
+                case 1:
+                    //点击信息库
+                    this.$router.push({ path: '/infolib' });
+                    this.topac = 2;
+                    break;
+                case 2:
+                    //点击app下载
+                    this.$router.push({ path: '/load' });
+                    this.topac = 3;
+                    break;
+                case 3:
+                    //点击成为vip
+                    this.$router.push({ path: '/vip' });
+                    this.topac = 4;
+                    break;
+            }
+        },
+        toMyAccount:function(i){
+        	this.topac = 5;
+        	this.$router.push({
+        		path:'/account'
+        	})
+        },
+        login1: function login1(e) {
+            if (e.target.nodeName === 'A') {
+                // 登录、注册
+                var tar = e.target,
+                    index = $(tar).index();
+                $(".cover-box").toggle().find('.login-action').eq(index).show();
+                if (!$(tar).hasClass('active')) $(tar).addClass('active').siblings('a').removeClass('active');
+            }
+        },
+        //点击我的账户
+        mycount: function mycount(e) {
+            this.ismycountlistshow = true;
+        },
+        vanish: function vanish(e) {
+            this.ismycountlistshow = false;
+        },
+        //退出登录，清除sid
+        logout: function logout() {
+            sessionStorage.removeItem("sid");
+            sessionStorage.removeItem("username");
+            this.ismycountshow = false;
+            this.isLoginshow = true;
+        },
+        islogined: function islogined() {
+            //判断sid是否存在
+            if (sessionStorage && sessionStorage.sid) {
+                this.ismycountshow = true;
+                this.isLoginshow = false;
+                this.username = sessionStorage.username;
+            }
+        },
+        //账户列表的mouseover效果
+        accountlist: function accountlist(e) {
+            $(e).find("a").css({ 'color': "#11bdc5" });
+            $(".account-list>a").css({ "color": "#555" });
+            $(".account-list").find(".firstPic").removeClass("display-none");
+            $(".account-list").find(".secondPic").addClass("display-none");
+            $(e.target).find(".firstPic").addClass("display-none");
+            $(e.target).find(".secondPic").removeClass("display-none");
+        },
+        //用于截取href中?后面内容
+        subHref: function subHref(href) {
+            var str = href.substring(href.indexOf('?') + 1, href.length);
+            return str.split('&');
+        }
+    },
+    created: function created() {
+        //写登录的sessionstorage 调用islogined方法
+        this.islogined();
+        var a = /info\.html/.test(location.href);
+        if (!a) {
+            switch (this.$route.name) {
+                case 'recommond':
+                    this.topac = 1;
+                    break;
+                case 'infolib':
+                    this.topac = 2;
+                    break;
+                case 'load':
+                    this.topac = 3;
+                    break;
+                case 'vip':
+                    this.topac = 4;
+                    break;
+            }
+        }
+    }
+};
+</script>
+<style>
+	.ul-box.clearfix li{
+		cursor: pointer;
+	}
+</style>

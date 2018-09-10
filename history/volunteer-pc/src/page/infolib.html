@@ -1,0 +1,431 @@
+<template>
+	<div class="container banxin clearfix" v-cloak>
+		<base-topnav :topnav=topnav></base-topnav>
+		<div>
+			<base-leftnav :leftnav=leftnav @catalog=catalog></base-leftnav>
+			<div class="tab-right">
+				<!-- 院校大全 -->
+				<school-recommond v-if="tap==0" :areas=areas :categorys=categorys :conditions=conditions :logo=logo :schools=schools :show=show @school_details=school_details @select=select></school-recommond>
+				<!-- 专业大全 -->
+				<div v-if="tap==1" class="specialty-surname">
+					<div class="ss-search">
+						<input @keypress='searchMajor' type="search" placeholder="搜索你感兴趣的专业" />
+						<span @layclick='searchMajor2'>搜索</span>
+					</div>
+					<div class="ss-college">
+						<ul class="clearfix">
+							<li v-for='(type,index) of types' @layclick='toggleShow' :class='{"ss-active":index==0}'>{{type.dataname}}</li>
+						</ul>
+						<div class="ss-undergraduate" @layclick=major_change($event)>
+							<span style="cursor:pointer;" class="span" v-for='major of majors' :datavalue=major.datavalue>{{major.dataname}}</span>
+						</div>
+						<div class="ss-junior"></div>
+					</div>
+					<div class="ss-specialty">
+						<ul>
+							<li>
+								<div class="ss-specialty-top">
+									<span>{{limajors}}</span>
+								</div>
+								<div class="ss-specialty-substance clearfix" v-for='mm of mms'>
+									<div class="ss-specialty-left">{{mm.dataname}}：</div>
+									<div class="ss-specialty-right">
+										<span style="cursor:pointer;" @layclick="toMajor(majorname.id)" v-for='majorname of mm.third'>{{majorname.major_name}}</span>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!-- 大学排行 -->
+				<div v-if="tap==2" class="college-ranking">
+					<div class="select">
+						<school-area :areas=areas @select=select></school-area>
+						<!--<div class="select-item">
+					<div class="percent">榜单类型:</div>
+					<div class="per-cell" @layclick=select($event)>
+						<div><span class="active">综合排名</span></div>
+						<div><span>竞争力排名</span></div>
+						<div><span>薪酬排名</span></div>
+						<div><span>女生排名</span></div>
+					</div>
+				</div>-->
+					</div>
+					<div id="report" class="report">
+						<div class="r-school">大学排行</div>
+						<rank-school :rank_schools=rank_schools></rank-school>
+					</div>
+					<before-and-after :type="'rank_schools'"></before-and-after>
+				</div>
+				<!-- 专业排行 -->
+				<div v-if="tap==3" class="specialty-ranking">
+					<div class="select">
+						<div class="select-item">
+							<div class="percent">学历类型:</div>
+							<div class="per-cell">
+								<div @layclick="obenke" class="no-mr"><span :class="{active:bz==0}">本科</span></div>
+								<div @layclick="ozhuanke"><span :class="{active:bz==1}">专科</span></div>
+							</div>
+						</div>
+						<!--<div class="select-item">
+					<div class="percent percent-area">专业类别:&nbsp;</div>
+					<div class="per-cell" @layclick=select($event)>-->
+						<!--<div v-for='(category, index) of major_categorys' @layclick="atMajor" class="no-mr">
+							<span :class='{"active":index==1}'>{{category}}</span>
+						</div>-->
+						<!--</div>
+				</div>-->
+					</div>
+					<div id="report" class="report">
+						<div class="r-school">专业排行</div>
+						<rank-major :rank_majors=rank_majors></rank-major>
+					</div>
+					<before-and-after :type="'rank_majors'"></before-and-after>
+				</div>
+				<!-- 真假院校 -->
+				<div v-if="tap==4" class="true-false-academy">
+					<div class="tfa-top">
+						检测真假院校
+						<div class="tfa-search">
+							<span>院校名称</span>
+							<input type="text" placeholder="在此输入完整的院校名称" class="tfa-input" @keyup.enter=inquiry($event) />
+							<span style="cursor: pointer;" class="tfa-button" @layclick=inquiry($event)>开始查询</span>
+						</div>
+						<div class="tfa-img">
+							<img :src='realSchool' v-show=back&&exist />
+							<img :src='lieSchool' v-show=back&&!exist />
+						</div>
+						<div class="tfa-fruit">
+							<span v-show=back&&exist>您查询的学校比9999黄金还真哦~</span>
+							<span v-show=back&&!exist>您查询的学校不在院校库内哦~</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<base-tips></base-tips>
+	</div>
+</template>
+<script>
+	'use strict';
+var garbage_can = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAUCAYAAACEYr13AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyhpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTMyIDc5LjE1OTI4NCwgMjAxNi8wNC8xOS0xMzoxMzo0MCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUuNSAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6REE5RDMyRkNDRjVDMTFFNzkwMjVCQjhGNTJEMEYwQjAiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6REE5RDMyRkRDRjVDMTFFNzkwMjVCQjhGNTJEMEYwQjAiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpEQTlEMzJGQUNGNUMxMUU3OTAyNUJCOEY1MkQwRjBCMCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpEQTlEMzJGQkNGNUMxMUU3OTAyNUJCOEY1MkQwRjBCMCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PgQmOVEAAAEySURBVHjaYvzvZsGABVgDcREQywPxfyjeBcRNQPwLWSELA3ZwEIh/AvFKIP4HxNxAXA3Ez4F4KjYDrKHsf1A+M1RhO5TPCsThQBwAxBeBmBGq5g0j0AuHgQwbBjIBEyWageA3yICPFBjACvK3GTS0v0BDm1gACgc+kAG3gPg7ECtBJQShAfoaGvp80NBnA2JhIH6JFNg7YbGwHoiNyfBCDBOU8RBJ0AeIxaHsXqhTQWAvlP0ESe0nJmwhC8Sfoey/SOI/ofQv9GhEBxxAzIOUgNATHTMhA0hOSIPPgF/QdAECf5DEYQH6D5sBrFgUMqClTCYsgcjCgpQsYWAOUlQlA7E3lG0HxJeAWAY5ahmhJRIo8Wwm0fvXgNgU5oItQOwPtY0b3Z9oGQgk9xha2HwDCDAAzM09xKY/dJgAAAAASUVORK5CYII=';
+var cache = {
+	benke: {},
+	zhuanke: {},
+	rank_majors: {},
+	mms: {},
+	page: 1
+};
+function sendData(ind) {
+	var that = this;
+	function getSelected(index) {
+		var a = $('.select').eq(ind).find('.condition select');
+		return a.eq(index).children().eq(a.get(index).selectedIndex).attr('data-json');
+	}
+	var o = {
+		city: $('.select').eq(ind).find('.yxarea .area span.active').attr('data-json'), //院校地区
+		category: $('.select').eq(ind).find('.yxleixin .area span.active').attr('data-json'), //院校类型
+		manbili: getSelected(0), //男女比例
+		abroad: getSelected(1), //出国比例
+		school_rank: getSelected(2), //学校属性
+		school_level: getSelected(3), //学校级别
+		graduate: getSelected(4), //读研比例
+		page: cache.page
+	};
+	function makeObj(obj) {
+		var c = {};
+		for (var key in obj) {
+			if (obj[key] && obj[key] != '0') {
+				c[key] = obj[key];
+			}
+		}
+		return c;
+	}
+	base.request(base.api(65), makeObj(o), function (data) {
+		that.schools = data.data;
+	});
+}
+function toggleClass(tar) {
+	$(tar).addClass('active').removeClass('active');
+}
+module.infolib = {
+	template: template,
+	data: function data() {
+		return {
+			tap: 0,
+			bz: 0,
+			topnav: [{
+				name: '首页',
+				router: '/index'
+			}, {
+				name: '信息库',
+				router: '/infolib'
+			}, {
+				name: '院校大全',
+				router: '/school-recommond'
+			}],
+			leftnav: {
+				title: '信息库',
+				listitem: ['院校大全', '专业大全', '大学排行', '专业排行', '真假院校']
+			},
+			areas: null,
+			categorys: null,
+			conditions: null,
+			schools: null,
+			rank_schools: null,
+			rank_majors: null,
+			major_categorys: null,
+			logo: null,
+			disabled: false,
+			back: false,
+			exist: false,
+			show: true,
+			hide: {
+				display: 'none'
+			},
+			realSchool: './src/style/img/school-true.png',
+			lieSchool: './src/style/img/school-false.png',
+			garbage_can: garbage_can,
+			editor: editor,
+			major_details: '1002',
+			sec: null,
+			types: null,
+			majors: null,
+			mms: null,
+			majornames: null,
+			limajors: null,
+			href: null
+		};
+	},
+	components: {
+		'school-area': require('school-area'),
+		'rank-major': require('rank-major'),
+		'before-and-after': require('before-and-after',{
+			cache : {
+				benke: {},
+				zhuanke: {},
+				rank_majors: {},
+				mms: {},
+				page: 1
+			}
+		}),
+		'school-recommond': require('school-recommond'),
+		'rank-school': require('rank-school'),
+		'base-leftnav': require('base-leftnav'),
+		'base-topnav': require('base-topnav'),
+		'base-tips': require('base-tips')
+	},
+	methods: {
+		searchMajor: function (_searchMajor) {
+			function searchMajor(_x) {
+				return _searchMajor.apply(this, arguments);
+			}
+
+			searchMajor.toString = function () {
+				return _searchMajor.toString();
+			};
+
+			return searchMajor;
+		}(function (e) {
+			if (e.keyCode == 13) {
+				searchMajor(e.target.value);
+			}
+		}),
+		searchMajor2: function searchMajor2(e) {
+			searchMajor($(e.target).prev().val());
+		},
+		select: function select(e) {
+			var _this = this;
+			var tar = e.target;
+			if (tar.nodeName == 'SPAN') {
+				if ($(tar).hasClass('submit')) {
+					location.href = 'volunteer-table.html';
+					return;
+				}
+				if (tar.innerHTML == '清空重选') {
+					var span = $(tar).parent().prev().find('span');
+					if (!span.first().hasClass('active')) span.first().addClass('active').next().removeClass('active');
+					return;
+				}
+				if ($(tar).parents().hasClass('choice')) {
+					$(tar).addClass('active').siblings('.active').removeClass('active');
+					return;
+				}
+				$(tar).parents('.select-item').find('.active').removeClass('active');
+				$(tar).addClass('active');
+				var a = $(tar).attr('data-type');
+				if (a == 'cityOrder') {
+					var b = $(tar).attr('data-json');
+					base.request(base.api(22), {
+						city: b
+					}, function (data) {
+						_this.rank_schools = data.data;
+					});
+				} else {
+					sendData.call(_this, 0);
+				}
+			}
+		},
+		catalog: function catalog(e, index) {
+			this.tap = index;
+		},
+		school_details: function school_details(e) {
+			var tar = e.target;
+			if (tar.className.indexOf('school-name') !== -1) {
+				var id = tar.getAttribute('school-id');
+				var url = '/info' + '?school-id=' + id + '&info&index=0';
+				this.$router.push({ path: url });
+			}
+		},
+		inquiry: function inquiry(e) {
+			var _this2 = this;
+
+			var inp = $(".tfa-input").val();
+			if (!inp) {
+				$(".tfa-fruit").html("您还没输入学校");
+			} else {
+				base.request(base.api(24), {
+					sname: inp
+				}, function (data) {
+					if (data.code === 0) {
+						_this2.exist = true;
+						_this2.back = true;
+					}
+				}, function (data) {
+					if (data.code === -1) {
+						_this2.exist = false;
+						_this2.back = true;
+					}
+				});
+			}
+		},
+		major_change: function major_change(e) {
+			var tar = e.target;
+			if (tar.nodeName === 'SPAN') {
+				this.major_details = tar.getAttribute('datavalue');
+				$('.ss-specialty-top').html('<span>' + $(e.target).html() + '</span>');
+				this.major_category();
+			}
+		},
+		major_category: function major_category() {
+			var _this = this;
+			var a = 0;
+			base.request(base.api(20), {
+				datavalue: _this.major_details,
+				level: 1
+			}, function (data) {
+				cache.mms[_this.major_details] = data.data.major;
+				$.each(cache.mms[_this.major_details], function (index, item) {
+					$.ajax({
+						url: base.api(19),
+						data: {
+							datavalue: item.datavalue,
+							sid: localStorage.getItem('sid')
+						},
+						beforeSend: function beforeSend() {
+							this.index = index;
+						},
+						success: function success(data) {
+							a++;
+							cache.mms[_this.major_details][this.index].third = data.data;
+							if (cache.mms[_this.major_details].length == a) {
+								_this.mms = cache.mms[_this.major_details];
+							}
+						}
+					});
+				});
+			});
+		},
+		toggleShow: function toggleShow(e) {
+			var that = this;
+			if ($(e.target).index() == 0) {
+				that.types = cache.benke.types;
+				that.majors = cache.benke.majors;
+				that.limajors = cache.benke.limajors;
+			} else {
+				that.majors = cache.zhuanke.majors;
+				that.limajors = cache.zhuanke.limajors;
+			}
+			$(e.target).addClass('ss-active').siblings().removeClass('ss-active');
+		},
+		toMajor: function toMajor(e) {
+			var url = 'info?major-id=' + e + '&info&index=1';
+			this.$router.push({ path: url });
+		},
+		obenke: function obenke(e) {
+			this.bz = 0;
+			this.rank_majors = cache.rank_majors.benke;
+		},
+		ozhuanke: function ozhuanke(e) {
+			this.bz = 1;
+			this.rank_majors = cache.rank_majors.zhuanke;
+		}
+	},
+	created: function created() {
+		console.log(this.$route)
+		var _this3 = this;
+		var init={
+			vm:this
+		}
+		window.init=init;
+		this.href = +location.href.split('=')[1];
+		base.request(base.api(6), {
+			group: 'schoolArea'
+		}, function (data) {
+			_this3.areas = data.data.reverse();
+			_this3.areas.forEach(function (area) {
+				if (area.dataname.length > 4) area.dataname = area.dataname.slice(0, 3);
+				if (area.dataname.length != 2 && area.dataname !== '内蒙古' && area.dataname !== '黑龙江') area.dataname = area.dataname.slice(0, -1);
+			});
+		});
+		base.request(base.api(6), {
+			group: 'schoolCategory'
+		}, function (data) {
+			_this3.categorys = data.data;
+		});
+		base.request(base.api(52), {}, function (data) {
+			_this3.conditions = data.data;
+		});
+		base.request(base.api(65), {}, function (data) {
+			_this3.schools = data.data;
+		});
+		    // 学院
+		this.logo = base.api('logo');
+	},
+	mounted: function mounted() {
+		var _this = this;
+		base.request(base.api(20), {}, function (data) {
+			cache.benke.types = _this.types = data.data.type.reverse();
+			cache.benke.majors = _this.majors = data.data.major;
+			cache.benke.limajors = _this.limajors = data.data.major[0].dataname;
+			_this.major_category();
+		});
+		base.request(base.api(20), {
+			datavalue: 1500,
+			level: 0
+		}, function (data) {
+			cache.zhuanke.majors = data.data.major;
+			cache.zhuanke.limajors = data.data.major[0].dataname;
+		});
+		_this.major_categorys = ['全部', '哲学', '经济学', '法学', '教育学', '文学', '历史学', '理学', '工学', '农学', '医学', '管理学', '艺术学'];
+		base.request(base.api(22), {}, function (data) {
+			_this.rank_schools = data.data;
+		});
+		base.request(base.api(23), {}, function (data) {
+			cache.rank_majors.benke = _this.rank_majors = data.data;
+		});
+		base.request(base.api(23), {
+			rank: 2
+		}, function (data) {
+			cache.rank_majors.zhuanke = data.data;
+		});
+		//跨页跳转
+		$(".neibu_tab li").eq(_this.href).trigger("click");
+	}
+};
+</script>
+<style>
+	.tfa-fruit{
+		height:200px;
+	}
+</style>

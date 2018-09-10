@@ -1,0 +1,192 @@
+.shade(){
+    position:fixed;
+    top:0;
+    bottom:0;
+    right:0;
+    left:0;
+    background:rgba(0,0,0,.5);
+    z-index:2000;
+}
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, td {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background: #fff;
+    width: 100%;
+    /*// margin: 0 auto;*/
+    color: #555;
+    font-size: 14px;
+    font-family: '微软雅黑',Verdana, Arial, Helvetica, sans-serif;
+    min-width:1366px;
+}
+td, th, caption {
+    font-size: 14px;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+    font-size: 100%;
+}
+address, caption, cite, code, dfn, em, strong, th, var {
+    font-style: normal;
+    font-weight: normal;
+}
+a {
+    color: #555;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: none;
+}
+img {
+    border: none;
+    vertical-align: middle;
+}
+ol, ul, li {
+    list-style: none;
+}
+input, textarea, select, button {
+    font: 14px "microsoft yahei", Helvetica, Arial, sans-serif;
+}
+table {
+    border-collapse: collapse;
+}
+html {
+    overflow-y: scroll;
+}
+.fll {
+    float: left;
+}
+.flr {
+    float: right;
+}
+.display-none {
+    display: none;
+}
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden
+}
+/*公共的宽度*/
+.banxin {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+
+.cover-box{
+    width: 100%;
+    height: 1000px;
+    background-color: rgba(0,0,0,0.5);
+    position: absolute;
+    top: 0;
+    z-index: 5000;
+}
+/*注册开始*/
+
+/*注册结束*/
+/*登录开始*/
+
+
+.yixia {
+    text-align: center;
+    margin-bottom: 10px;
+}
+.yixia > i {
+    font-style: normal;
+    font-size: 14px;
+    color: #555;
+}
+.yixia > span {
+    width: 105px;
+    height: 1px;
+    background-color: #eee;
+    margin-top: 10px;
+}
+.three > div {
+    float: left;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    text-align: center;
+    border: 1px solid #00b6f8;
+    line-height: 50px;
+    margin: 0 30px;
+}
+
+/* container */
+.container{
+    margin: 0 auto;
+    background-color: #fff;
+    margin-bottom: 41px;
+    min-height:538px;
+}
+
+/* 左侧导航 */
+.tab-right{
+    float: left;
+}
+
+
+/*上下页开始*/
+.y-pages{
+    text-align: center;
+    height: 36px;
+    margin:0 auto;
+    margin-top: 35px;
+    width: 321px;
+}
+.y-pages>a{
+    width: 36px;
+    height: 36px;
+    border: solid 1px #ccc;
+    text-align: center;
+    line-height: 36px;
+    display: inline-block;
+}
+.y-pages>a.active{
+    background-color: #11bdc5;
+    border: solid 1px #11bdc5;
+    color:#fff;
+}
+.y-pages>a:first-child,.y-pages>a:last-child{
+    width: 70px;
+}
+/*上下页结束*/
+/*上一篇下一篇开始*/
+.y-article{
+    font-size: 16px;
+    line-height: 18px;
+    color: #666;
+}
+.y-article a{
+    font-size: 16px;
+    color: #11bdc5;
+}
+.y-errorMsg{
+    font: 12px/30px "黑体";
+    color:red;
+}
+[v-cloak]{
+    display: none;
+}
+
+/*上一篇下一篇结束*/
+
+/*去除登录输入框的黄色*/
+input:-webkit-autofill{
+    -webkit-box-shadow: 0 0 0px 1000px white inset
+}
+input:focus{
+    outline: 1px solid #11bdc5;
+}
+@-webkit-keyframes-autofill{
+    to{
+        color:#fff!important;
+        background: transparent!important;
+    }
+}

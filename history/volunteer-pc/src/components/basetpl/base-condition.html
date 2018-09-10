@@ -1,0 +1,37 @@
+<template>
+	<div class="select-item">
+		<div class="percent percent-area">更多筛选:</div>
+		<div class="per-cell per-cell-2">
+			<div class="condition" v-for='(condition,index) of conditions'>
+				<select
+					v-model=condition.name
+					@change=change($event)
+					:type=condition.type>
+					// <option class="hide">{{condition.name}}</option>
+					<option v-for='val of condition.child' :orderid=val.level :datavalue=val.datavalue>{{val.dataname}}</option>
+				</select>
+			</div>
+		</div>
+	</div>
+</template>
+<script>
+	module['base-condition'] = {
+		template: template,
+		data: function data() {
+			return {
+				conditions: null
+			};
+		},
+		created: function created() {			
+			window.$condition = this;
+			this.$http.get(base.baseApi('App.School.Filtrate')).then(d=>{				
+				this.conditions = d.data.data.data
+			})			
+		},
+		methods: {
+			change: function change(e) {
+				this.$emit('change', e);
+			}
+		}
+	};
+</script>

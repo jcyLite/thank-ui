@@ -1,0 +1,35 @@
+.tipsXY{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background:transparent;
+    div.selecter.active{
+        opacity: 1;
+        transform:translate(0,0);
+    }
+    .selecter{
+        border-radius: 8px;
+        box-shadow:8px 8px 30px rgba(0,0,0,.3);
+        overflow: hidden;
+        background:#fff;
+        opacity: 0;
+        transition:.3s all;
+        height:auto;
+        position:fixed;
+        .options{
+            text-align: center;
+            height:30px;
+            line-height: 30px;
+            font-size:14px;
+        }
+        .options:not(:last-child){
+            border-bottom: 1px solid #ddd;
+        }
+        .options:active{
+            background:#ddd;
+        }
+    }
+    
+}

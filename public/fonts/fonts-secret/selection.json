@@ -1,0 +1,133 @@
+{
+  "IcoMoonType": "selection",
+  "icons": [
+    {
+      "icon": {
+        "paths": [
+          "M768 384v-256h-512v257.92l-128-0.16v510.24h768v-512h-128zM640 384h-256v-128h256v128z"
+        ],
+        "attrs": [
+          {}
+        ],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "tags": [
+          "collect",
+          "work",
+          "pack",
+          "grab",
+          "travel",
+          "select",
+          "fill"
+        ],
+        "grid": 16
+      },
+      "attrs": [
+        {}
+      ],
+      "properties": {
+        "order": 1,
+        "id": 0,
+        "prevSize": 32,
+        "code": 59662,
+        "name": "collect"
+      },
+      "setIdx": 0,
+      "setId": 10,
+      "iconIdx": 0
+    },
+    {
+      "icon": {
+        "paths": [
+          "M592 448h-16v-192c0-105.87-86.13-192-192-192h-128c-105.87 0-192 86.13-192 192v192h-16c-26.4 0-48 21.6-48 48v480c0 26.4 21.6 48 48 48h544c26.4 0 48-21.6 48-48v-480c0-26.4-21.6-48-48-48zM192 256c0-35.29 28.71-64 64-64h128c35.29 0 64 28.71 64 64v192h-256v-192z"
+        ],
+        "tags": [
+          "lock",
+          "secure",
+          "private",
+          "encrypted"
+        ],
+        "defaultCode": 59791,
+        "grid": 16,
+        "attrs": []
+      },
+      "attrs": [],
+      "properties": {
+        "ligatures": "lock, secure",
+        "name": "lock",
+        "order": 6,
+        "id": 144,
+        "prevSize": 32,
+        "code": 59791
+      },
+      "setIdx": 9,
+      "setId": 1,
+      "iconIdx": 143
+    },
+    {
+      "icon": {
+        "paths": [
+          "M128 992v-512h96v-160c0-141.376 114.592-256 256-256h32c141.376 0 256 114.624 256 256v160h96v512h-736zM471.808 729.184l-23.808 166.816h96l-23.84-166.816c23.328-9.536 39.84-32.416 39.84-59.2 0-35.328-28.672-64-64-64-35.36 0-64 28.672-64 64 0 26.784 16.48 49.664 39.808 59.2zM672 336c0-97.216-78.816-176-176-176-97.216 0-176 78.784-176 176v144h352v-144z"
+        ],
+        "attrs": [
+          {}
+        ],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "tags": [
+          "locked",
+          "secure"
+        ],
+        "grid": 32
+      },
+      "attrs": [
+        {}
+      ],
+      "properties": {
+        "order": 1,
+        "id": 0,
+        "prevSize": 32,
+        "code": 59661,
+        "name": "locked"
+      },
+      "setIdx": 1,
+      "setId": 9,
+      "iconIdx": 0
+    }
+  ],
+  "height": 1024,
+  "metadata": {
+    "name": "icomoon"
+  },
+  "preferences": {
+    "showGlyphs": true,
+    "showQuickUse": true,
+    "showQuickUse2": true,
+    "showSVGs": true,
+    "fontPref": {
+      "prefix": "icon-",
+      "metadata": {
+        "fontFamily": "icomoon",
+        "majorVersion": 1,
+        "minorVersion": 0
+      },
+      "metrics": {
+        "emSize": 1024,
+        "baseline": 6.25,
+        "whitespace": 50
+      },
+      "embed": false
+    },
+    "imagePref": {
+      "prefix": "icon-",
+      "png": true,
+      "useClassSelector": true,
+      "color": 0,
+      "bgColor": 16777215,
+      "classSelector": ".icon"
+    },
+    "historySize": 50,
+    "showCodes": true,
+    "gridSize": 16
+  }
+}

@@ -1,0 +1,48 @@
+#qrCodeBox{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,.5);
+    z-index:5001;
+    
+}
+#qrcoding{
+    width: 284px;    
+    background: #fff;
+    margin: 100px auto;
+    text-align: center;
+    padding: 25px;
+    animation: showQrCode .8s;    
+}
+h4{
+    margin: 0 0 14px 0;
+    color: #23b0d2;
+    position: relative;
+}
+h4 span{
+	display: inline-block;
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 26px;
+    height: 26px;
+    background: #11bdc5;
+    border-radius: 18px;
+    color: #fff;
+    line-height: 26px;
+    font-size: 16px;
+    cursor: pointer;
+}
+@keyframes showQrCode{
+	0%{
+        opacity:0;
+        transform: scale(.1,.1);
+    }   
+   
+    100%{
+        opacity:1;
+        transform:scale(1,1);
+    }
+}

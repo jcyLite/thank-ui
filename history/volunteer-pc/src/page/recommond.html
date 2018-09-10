@@ -1,0 +1,303 @@
+<template>
+	<div class="container banxin clearfix" v-cloak>
+		<base-topnav :topnav=topnav></base-topnav>
+		<div>
+			<base-leftnav :leftnav=leftnav @catalog=catalog></base-leftnav>
+			<div class="tab-right">
+				<recommond-school v-show="tap==0" :otype="'a'" :schools='schools' :show=show :type=school_type :no_data=no_data_score @select=select></recommond-school>
+				<recommond-smart v-show="tap==1" :areas=areas :checkbox=checkbox :garbage_can=garbage_can :disabled=disabled @select=select></recommond-smart>
+				<div v-show="tap==2"></div>
+				<recommond-test v-show="tap==3" :search_school=search_school></recommond-test>
+				<recommond-report v-show="tap==4"></recommond-report>
+				<!--看就业选学校-->
+				<recommond-chooseSchool v-show="tap==5" :otype="'b'" :schools='job_schools' :show=!show :no_data=no_data_job @select=select></recommond-chooseSchool>
+				<!--看就业选专业-->
+				<recommond-seemajor v-show="tap==6" @select=select @page=page></recommond-seemajor>
+				<!--看职业选专业-->
+				<recommond-seejob v-show="tap==7" :no_data_occupation=no_data_occupation :trades=trades :tabs=tabs :occupation=occupation @page=page @scale=scale @select=select></recommond-seejob>
+			</div>
+		</div>
+		<base-tips></base-tips>
+	</div>
+</template>
+<script>
+	'use strict';
+
+var cache = {};
+var garbage_can = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAUCAYAAACEYr13AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyhpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTMyIDc5LjE1OTI4NCwgMjAxNi8wNC8xOS0xMzoxMzo0MCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUuNSAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6REE5RDMyRkNDRjVDMTFFNzkwMjVCQjhGNTJEMEYwQjAiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6REE5RDMyRkRDRjVDMTFFNzkwMjVCQjhGNTJEMEYwQjAiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpEQTlEMzJGQUNGNUMxMUU3OTAyNUJCOEY1MkQwRjBCMCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpEQTlEMzJGQkNGNUMxMUU3OTAyNUJCOEY1MkQwRjBCMCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PgQmOVEAAAEySURBVHjaYvzvZsGABVgDcREQywPxfyjeBcRNQPwLWSELA3ZwEIh/AvFKIP4HxNxAXA3Ez4F4KjYDrKHsf1A+M1RhO5TPCsThQBwAxBeBmBGq5g0j0AuHgQwbBjIBEyWageA3yICPFBjACvK3GTS0v0BDm1gACgc+kAG3gPg7ECtBJQShAfoaGvp80NBnA2JhIH6JFNg7YbGwHoiNyfBCDBOU8RBJ0AeIxaHsXqhTQWAvlP0ESe0nJmwhC8Sfoey/SOI/ofQv9GhEBxxAzIOUgNATHTMhA0hOSIPPgF/QdAECf5DEYQH6D5sBrFgUMqClTCYsgcjCgpQsYWAOUlQlA7E3lG0HxJeAWAY5ahmhJRIo8Wwm0fvXgNgU5oItQOwPtY0b3Z9oGQgk9xha2HwDCDAAzM09xKY/dJgAAAAASUVORK5CYII=';
+module.recommond = {
+	template: template,
+	components: {
+		'recommond-chooseSchool': require('recommond-chooseSchool'),
+		'recommond-school': require('recommond-school'),
+		'recommond-seejob': require('recommond-seejob'),
+		'recommond-seemajor': require('recommond-seemajor'),
+		'recommond-test': require('recommond-test'),
+		'recommond-smart': require('recommond-smart'),
+		'recommond-report': require('recommond-report'),
+		'base-topnav': require('base-topnav'),
+		'base-leftnav': require('base-leftnav'),
+		'base-tips': require('base-tips')
+	},
+	data: function data() {
+		return {
+			a: 'a',
+			b: 'b',
+			tap: 0,
+			h: { //存放显示不显示布尔值
+				schoolInfoShow: 0
+			},
+			leftnav: {
+				title: '热点资讯',
+				listitem: ['按分推荐大学', '智能填志愿', '模拟填志愿', '录取率测试', '成绩分析报告', '看就业选学校', '看就业选专业', '看职业选专业'],
+				routers:['school','smart','moni','test','report','chooseSchool','seemajor','seejob']
+			},
+			topnav: [{
+				name: '首页',
+				router: '/index'
+			}, {
+				name: '院校推荐',
+				router: '/recommond'
+			}, {
+				name: '按分推荐大学',
+				router: '/recommond'
+			}],
+			areas: null, // 院校地区 	看前缀 结构下同
+			categorys: null, // 院校类型 	看前缀 结构下同
+			conditions: null, // 更多筛选 	看前缀 结构下同
+			school_type: {
+				manbili: '男女比例',
+				abroad: '出国比例',
+				school_rank: '学校属性',
+				school_level: '学校级别',
+				graduate: '读研比例'
+			},
+			schools: null, // 按分推荐的学院 	看前缀 结构下同
+			current_schools: null, // 已获取的院校 	看前缀 结构下同
+			school_opt: { // 请求数据时传递的参数 	看前缀 结构下同
+				page: 1
+			},
+			no_data_score: false, // 返回的数据是否为空 	看前缀 结构下同
+
+			job_schools: null, // 看就业选学校
+			current_job_schools: null,
+			job_opt: {
+				page: 1
+			},
+			no_data_job: false,
+			major_opt: {
+				'class': 1002,
+				page: 1
+			},
+			current_occupation: null,
+			trades: null, // 筛选
+			tabs: null, // 筛选
+			occupation_opt: {
+				page: 1,
+				type: "salary"
+			},
+			href: null,
+			logo: null, // 大学logo链接前缀
+			disabled: false,
+			show: true, // 按分推荐 还是 看就业选学校
+			percent: 70, // 录取率百分比
+			checkbox: [], // 智能志愿已选项
+			hide: {
+				display: 'none'
+			},
+			search_school: '', // 录取查询
+			garbage_can: garbage_can,
+			editor: editor,
+			occupation: { // 看职业选专业
+				vocations: null,
+				scales: null,
+				schoolgirls: null
+			},
+			no_data_occupation: {
+				vocations: false,
+				scales: false,
+				schoolgirls: false
+			}
+		};
+	},
+	methods: {
+		select: function select(e) {
+			base.select.call(this, e);
+		},
+		school_details: function school_details(e) {
+			var tar = e.target;
+			if (tar.className.indexOf('school-name') > -1) {
+				open('./src/newPage/info.html' + '?school-id=' + tar.getAttribute('school-id') + '&collage&' + $('.neibu_tab li.active').index());
+			} else if (tar.className.indexOf("collect") > -1) {
+				var id = $(tar).parents('.school-info').find('.school-name').attr('school-id');
+				if (tar.className.indexOf("notcollect") > -1) {
+					base.request(base.api(30), {
+						type: "school",
+						id: id
+					}, function (data) {
+						tar.className = tar.className.replace('notcollect', 'collect');
+					});
+				} else {
+					tar.className = tar.className.replace('collect', 'notcollect');
+					base.request(base.api(30), {
+						type: "school",
+						id: id
+					}, function () {});
+				}
+			}
+		},
+		catalog: function catalog(e, index) {
+			var tar = e.target;
+			if (tar.innerHTML.indexOf('模拟填志愿') > -1) {
+				$('#tips').show();
+				return;
+			}
+			if (tar.innerHTML.indexOf('智能填志愿') > -1) {
+				$('#tips').show();
+				return;
+			}
+			this.topnav[2].name = this.leftnav.listitem[index];
+			this.tap=index;
+		},
+		isChecked: function isChecked(e) {
+			var tar = e.target;
+			if (tar.nodeName == 'LABEL' && tar.childNodes.length > 2 && tar.childNodes[2].nodeName == 'INPUT' && tar.getAttribute('value') == '1') this.bingo(tar.childNodes[0]);
+			if (tar.nodeName == 'SPAN' && tar.nextElementSibling.nodeName == 'INPUT' && tar.getAttribute('value') == '1') this.bingo(tar);
+		},
+		scale: function scale(e) {
+			var that = this,
+			    tar = e.target,
+			    url = base.api(34);
+			if (tar.nodeName == 'LI') {
+				if ($(tar).hasClass('vm-active')) return;
+				that.no_data_occupation.vocations = false;
+				that.no_data_occupation.scales = false;
+				that.no_data_occupation.schoolgirls = false;
+				that.occupation_opt.page = 1;
+				$(tar).addClass('vm-active').siblings('li.vm-active').removeClass('vm-active');
+				var index = $('.vm-box li.vm-active').index();
+				$(".vm").hide();
+				$(".vm").eq($(tar).index()).show();
+				if (index === 0) {
+					that.request(url, that.occupation_opt, function (data) {
+						that.occupation.vocations = data.data.job;
+					});
+				} else if (index === 1) {
+					that.occupation_opt.type = "benbili";
+					base.request(url, that.occupation_opt, function (data) {
+						that.occupation.scales = data.data.job;
+					});
+				} else {
+					that.occupation_opt.type = "manbili";
+					base.request(url, that.occupation_opt, function (data) {
+						that.occupation.schoolgirls = data.data.job;
+					});
+				}
+			}
+		},
+		bingo: function bingo(selector) {
+			if (document.querySelectorAll('.bingo').length == 3 && selector.className.indexOf(' bingo') == -1) return;
+			selector.className.indexOf(' bingo') == -1 ? selector.className += ' bingo' : selector.className = selector.className.replace(' bingo', '');
+			return;
+		},
+
+		page: function page(e) {},
+		turn_page: function turn_page(url, arr, current_arr, page) {
+			var _this = this;
+			var boo = false;
+			for (var key in current_arr) {
+				if (+key === page + 1) {
+					arr = current_arr[++page];
+					boo = true;
+					break;
+				}
+			}
+			if (boo) return;
+			base.request(url, {
+				page: ++page
+			}, function (data) {
+				arr = data.data;
+				current_arr[page] = data.data;
+			});
+		}
+	},
+	watch: {
+		checkbox: function checkbox(value) {
+			if (this.checkbox.length == 3) {
+				$('.check-box input').each(function () {
+					if (this.checked) return;
+					this.disabled = true;
+				});
+				return;
+			}
+			if (document.querySelectorAll('.bingo').length != 3) $('.check-box input').each(function () {
+				this.disabled = false;
+			});
+		}
+	},
+	mounted:function(){
+		$('.search-info').hide();
+	},
+	created: function() {
+		var _this2 = this;
+		this.logo = base.api('logo');
+		this.tabs = ['薪酬最高', '本科比例最高', '女生最多'];
+		// 数据
+		var _this = this;
+		
+		// 就业选专业
+		// 看职业选专业
+		var _this2 = this;
+
+			// 数据
+			var _this = this;
+			$('.search-info').hide();
+			// 就业选专业
+			// 看职业选专业
+			var vocation = new Promise(function(res, rej) {
+					return base.request(base.api(34), {
+						type: "salary",
+						page: 1
+					}, function(data) {
+						return res(data);
+					});
+				}),
+				// 薪酬最高
+				scale = new Promise(function(res, rej) {
+					return base.request(base.api(34), {
+						type: "benbili",
+						page: 1
+					}, function(data) {
+						return res(data);
+					});
+				}),
+				// 本科比例最高
+				schoolgirl = new Promise(function(res, rej) {
+					return base.request(base.api(34), {
+						type: "manbili",
+						page: 1
+					}, function(data) {
+						return res(data);
+					});
+				}); // 女生最多
+			Promise.all([vocation, scale, schoolgirl]).then(function(data) {
+				_this2.trades = data[0].data.trade;
+				_this2.occupation.vocations = data[0].data.job;
+				_this2.occupation.scales = data[1].data.job;
+				_this2.occupation.schoolgirls = data[2].data.job;
+				_this2.current_occupation = {
+					vocations: {
+						1: data[0].data.job
+					},
+					scales: {
+						1: data[1].data.job
+					},
+					schoolgirls: {
+						1: data[2].data.job
+					}
+				};
+			});
+		
+	}
+};
+</script>

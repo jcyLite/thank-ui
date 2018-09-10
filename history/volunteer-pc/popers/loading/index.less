@@ -1,0 +1,31 @@
+@import "../variable.less";
+.loading-box{
+    .mid(80px,80px);
+    background:rgba(0,0,0,.5);
+    border-radius:10px;
+    color:#fff;
+    text-align: center;
+    line-height: 80px;
+    font-size:22px;
+    animation: biger .3s;
+    img{
+        position: absolute;
+        left:0;
+        right:0;
+        top:0;
+        bottom:0;
+        margin:auto;
+        width:50px;
+    }
+}
+@keyframes biger
+{
+    0%{
+        opacity:0;
+        transform: scale(.2,.2);
+    }
+    100%{
+        opacity:1;
+        transform:scale(1,1);
+    }
+}

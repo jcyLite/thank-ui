@@ -1,0 +1,102 @@
+<template>
+	<div id="vocation-major" class="vocation-major">
+		<div class="ms-box">
+			<div class="select-item" @layclick=select($event)>
+				<div class="percent percent-area">行业类别:</div>
+				<div class="per-cell per-cell-2">
+					<div class="area w-area" v-for='(trade,index) of trades'><span :datavalue=trade.datavalue :class='{active:index==0}'>{{trade.dataname}}</span></div>
+				</div>
+			</div>
+		</div>
+		<div class="vm-major">
+			<div class="vm-box" @layclick='scale($event)'>
+				<ol class="clearfix">
+					<li v-for='(tab,index) of tabs' :class="{'vm-active':index==0}">{{tab}}<span class="icon-arrow-down3"></span></li>
+				</ol>
+			</div>
+			<div class="vm-payment vm" @layclick='major_details($event)'>
+				<no-data v-show=no_data_occupation.vocations></no-data>
+				<ul>
+					<li v-for='vocation of occupation.vocations'>
+						<span class="vm-generic" :major-id=vocation.id>{{vocation.job}}</span>
+						<br />
+						<span class="vm-monthly">所属行业：
+							<span>{{vocation.dataname}}</span>
+						</span>
+						<div class="vm-salary">毕业5年月薪：
+							<span>{{"&yen;"+vocation.salary}}</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="vm-scale vm hide" @layclick='major_details($event)'>
+				<no-data v-show=no_data_occupation.scales></no-data>
+				<ul>
+					<li v-for='scale of occupation.scales'>
+						<span class="vm-generic" :major-id=scale.id>{{scale.job}}</span>
+						<br />
+						<span class="vm-monthly">所属行业：
+							<span>{{scale.dataname}}</span>
+						</span>
+						<div class="vm-salary">本科比例：
+							<span>{{scale.benbili+"%"}}</span>
+							<div class="scaling-box">
+								<div :style="{width:scale.benbili+'%'}"></div>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="vm-schoolgirl vm hide" @layclick='major_details($event)'>
+				<no-data v-show=no_data_occupation.schoolgirls></no-data>
+				<ul>
+					<li v-for='schoolgirl of occupation.schoolgirls'>
+						<span class="vm-generic" :major-id=schoolgirl.id>{{schoolgirl.job}}</span>
+						<br />
+						<span class="vm-monthly">所属行业：
+							<span>{{schoolgirl.dataname}}</span>
+						</span>
+						<div class="vm-salary">毕业5年月薪：
+							<span>{{schoolgirl.manbili+"%"}}</span>
+							<div class="scaling-box">
+								<div :style="{width:schoolgirl.manbili+'%'}"></div>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class='page' @layclick=page($event)>
+				<a href='#top' class="occupation">上一页</a>
+				<a href='#top' value='+' class="occupation">下一页</a>
+			</div>
+		</div>
+	</div>
+</template>
+<script>
+	module['recommond-seejob'] = {
+		props: ['trades', 'tabs','no_data_occupation','occupation','occupation_opt'],
+		template: template,
+		data: function data() {
+			return {
+				job_schools: null
+			};
+		},
+		methods: {
+			major_details: function major_details(e) {
+
+			},
+			page: function page(e) {
+				this.$emit('page', e);
+			},
+			scale: function scale(e) {
+				this.$emit('scale', e);
+			},
+			select: function select(e) {
+				this.$emit('select', e);
+			}
+		},
+		created: function created() {
+			
+		}
+	};
+</script>

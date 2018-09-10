@@ -1,0 +1,94 @@
+<template>
+	<div>
+		<div class="container banxin clearfix" v-cloak>
+			<base-topnav :topnav=topnav></base-topnav>
+			<div class="content">
+				<h3> {{detail.title}}？</h3>
+				<pre>{{detail.content}}</pre>
+				<!-- <p>小编认为大学选择三步法能够满足我们对选大学的要求。</p>
+			<p>第一步，全面分析考生个人及家庭的特征和需求。对考生而言，中学阶段的学习基础、兴趣及活动经历，个人对未来求学的地域偏好、职业兴趣、毕业期望等都会影响到其对大学及专业的选择。</p>
+			<p>就考生家庭而言，是否是第一代大学生家庭、父母的文化程度和职业类型、家庭的经济与社会资本、父母对子女未来的学历期望、父母对子女未来的就业期望都会左右考生及家庭对大学以及专业</p>
+			<p class="pbottom">的判断和选择。</p>
+			<p class="pbottom">
+				第二步，深入了解目标高校及目标专业。对大多数考生及其家庭来说，中国的大学不仅“千校一面”而且貌似“黑箱”，人们仅能从网络及新闻报道中获得关于大学的片段信息。</p>
+			<p class="pbottom">
+				第三步，实现考生与大学、专业的匹配，选择一所适合自己特点又有可能被录取的大学及专业。</p>
+			<p class="pbottom">你要问自己这些问题！</p>
+			<p class="pbottom">我喜欢学什么?我将来适合做什么?我要成为一个什么样的人?过一种什么样的生活?</p>
+			<p class="pbottom">你要做这些工作！</p>
+			<p>1、确定目标高校、目标专业范围；</p>
+			<p>2、通过多种方式联系到目标高校的在校生、毕业生，了解他们对自己所学专业的感受和评价；或者实地考察；</p>
+			<p class="pbottom">3、明白自己为什么要上大学，如何度过大学生活；</p>
+			<p class="pbottom">
+				最后，小编祝愿大家都能考上理想大学，选择理想专业！祝大家高顺利！</p> -->
+			</div>
+			<br><br>
+			<!--<div class="y-article clearfix">
+				<div class="y-last fll" v-if=back>
+					上一篇：
+					<a :href='"policy-detail.html?index="+(href-1)'>{{data_list[href-1].title}}</a>
+				</div>
+				<div class="y-next flr" v-if=forward>
+					下一篇：
+					<a :href='"policy-detail.html?index="+(href+1)'>{{data_list[href+1].title}}</a>
+				</div>
+			</div>-->
+		</div>
+		<div class="tips hide" id="tips">
+			<div class="tips-secondary">
+				<div class="return" id="tips-close">x</div>
+				<div class="prompt"><span>!</span>温馨提示</div>
+				<div class="prompt-substance">网页版暂不支持该功能，请用手机下载第一志愿APP使用该功能。</div>
+				<ul class="clearfix" id="tips-options">
+					<li class="no-download ">暂不下载</li>
+					<li class="download">
+						<a href="./special.html">下载APP使用</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</template>
+<script>
+	module['policy-detail'] = {
+		template: template,
+		components:{
+			'base-topnav':require('base-topnav')
+		},
+		data: function data() {
+			return {
+				editor: editor,
+				href: this.$route.query.oid,
+				data_list:JSON.parse(sessionStorage.gk),
+				topnav:[{
+					name: '首页',
+					router: '/index'
+				}, {
+					name: '填报政策解读',
+					router: '/policy'
+				},{
+					name:'详情',
+					router:'/policy-detail'
+				}]
+			};
+		},
+	   methods:{
+	   		getParams:function(){
+	   			this.msg=this.$route.params.oid
+	   			console.log(this.msg)
+	   		}
+	   },
+		computed: {
+			detail: function detail() {
+				console.log(this.data_list)
+				return this.data_list[this.href];
+			},
+			back: function back() {
+				return this.href !== 0;
+			},
+			forward: function forward() {
+				return this.href !== this.data_list.length - 1;
+			}
+		}
+	};
+</script>

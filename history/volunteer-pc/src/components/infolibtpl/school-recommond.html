@@ -1,0 +1,181 @@
+<template>
+	<div class="academy-surname">
+		<div class="select" @layclick=select($event)>
+			<div class="select-item yxarea">
+				<div class="percent percent-area">院校地区:</div>
+				<div class="per-cell per-cell-2">
+					<div class="area" v-if='!0'>
+						<span class="active">不限</span>
+					</div>
+					<div class="area" v-for='(area,index) of areas'>
+						<span data-type='city' :data-json='area.datavalue'>
+							{{area.dataname}}
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="select-item yxleixin" v-if='show'>
+				<div class="percent percent-area">院校类型:</div>
+				<div class="per-cell per-cell-2">
+					<div class="area" v-for='(category,index) of categorys'>
+						<span :data-json="category.datavalue" data-type="yxlx" :class="index==0?'active':''">{{category.dataname}}</span>
+					</div>
+				</div>
+			</div>
+			<div class="select-item" v-if='show'>
+				<div class="percent percent-area">更多筛选:</div>
+				<div class="per-cell per-cell-2">
+					<div class="condition" v-for='(condition,index) of conditions'>
+						<select @change=change($event)>
+							<option value="" class="hide">{{condition.type_name}}</option>
+							<option :data-json="val.datavalue" v-for='val of condition.child'>{{val.dataname}}</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="schools" @layclick=schoolDetails($event)>
+			<ul>
+		    <li v-for='school of schools'>
+		    	<div class="school-logo">
+		    		<img :src="logo+school.logo" alt="logo" title="logo" />
+		    	</div>
+		    	<div class="school-info">
+		    		<span class="school-name" :school-id=school.id>{{school.school_name}}</span>
+		    		<span class="city-name icon-shengfen" v-if='show'>{{school.city_name}}</span>
+		    		<br>
+		    		<span v-if='!show' class='five'>
+			    		<span>毕业5年月薪：<span>&yen;{{school.five}}</span></span>
+			    		<span>最多去向城市：<span>{{school.area_name}}{{school.bili}}%</span></span>
+	    			</span>
+		    		<span class="school-type"
+	    				v-if='show'
+    					v-if='school.stype.length>0'
+						v-for='type of school.stype'
+						v-show=type>{{type}}</span>
+	    			<span class="school-salary" v-if='show'>薪酬超过{{school.salary}}%的学校</span>
+		    		<div class="school-rank">
+		    			<span class="school-ranking">综合排名：<span>{{show?school.ranking:school.sort}}</span></span>
+		    			<span @layclick="toggleShow(school.status,school.id)" class="school-attention"
+		    				v-if='show'
+		    				:class='school.status==0? "icon-notcollect":"icon-collect"'></span>
+		    		</div>
+		    	</div>
+		    </li>
+			</ul>
+			<before-and-after :type="'schools'"></before-and-after>
+		</div>
+	</div>
+</template>
+<script>
+	'use strict';
+
+// 院校推荐
+var cache = {
+	benke: {},
+	zhuanke: {},
+	rank_majors: {},
+	mms: {},
+	page: 1
+};
+var othat=null;
+function sendData(ind) {
+	var that = othat;
+	function getSelected(index) {
+		var a = $('.select').eq(ind).find('.condition select');
+		return a.eq(index).children().eq(a.get(index).selectedIndex).attr('data-json');
+	}
+	var o = {
+		city: $('.select').eq(ind).find('.yxarea .area span.active').attr('data-json'), //院校地区
+		category: $('.select').eq(ind).find('.yxleixin .area span.active').attr('data-json'), //院校类型
+		manbili: getSelected(0), //男女比例
+		abroad: getSelected(1), //出国比例
+		school_rank: getSelected(2), //学校属性
+		school_level: getSelected(3), //学校级别
+		graduate: getSelected(4), //读研比例
+		page: cache.page
+	};
+
+	function makeObj(obj) {
+		var c = {};
+		for (var key in obj) {
+			if (obj[key] && obj[key] != '0') {
+				c[key] = obj[key];
+			}
+		}
+		return c;
+	}
+	base.request(base.api(65), makeObj(o), function (data) {
+		that.schools = data.data;
+	});
+}
+module['school-recommond'] = {
+	props: ['areas', 'categorys', 'conditions', 'logo', 'schools', 'show'],
+	template: template,
+	components:{
+		'before-and-after': require('before-and-after',{
+			sendData:sendData,
+			cache:cache
+		}),
+	},
+	created:function(){
+		othat=this;
+	},
+	methods: {
+		select: function select(e) {
+			cache.page = 1;
+			this.$emit('select', e);
+		},
+		toggleShow: function toggleShow(status, id) {
+			attentionAjax(this.schools, id, 'school');
+		},
+		change: function change(e) {
+			var that = this;
+			sendData(0);
+		},
+		schoolDetails: function schoolDetails(e) {
+			this.$emit('school_details', e);
+		}
+	}
+};
+function attentionCallback(d, obj) {
+	//请求修改关注接口成功后显示d.msg中的内容并修改obj中status属性
+	if (obj.status == !0) {
+		obj.status = !1;
+	} else {
+		obj.status = !0;
+	}
+	jcy.use('jcyer', function () {
+		jcy.jcyer({
+			skin: 1,
+			content: d.msg
+		});
+	});
+}
+function attentionAjax(obj, id, otype) {
+	//请求修改关注接口
+	if (jcy.isObject(obj)) {
+		base.request(base.api(30), {
+			type: otype || type,
+			id: id
+		}, function (d) {
+			attentionCallback(d, obj);
+		}, function (d) {
+			attentionCallback(d, obj);
+		});
+	} else if (jcy.isArray(obj)) {
+		jcy.each(obj, function (index, item) {
+			if (item.id == id) {
+				base.request(base.api(30), {
+					type: otype || type,
+					id: id
+				}, function (d) {
+					attentionCallback(d, item);
+				}, function (d) {
+					attentionCallback(d, item);
+				});
+			}
+		});
+	}
+}
+</script>

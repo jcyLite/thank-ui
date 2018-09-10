@@ -1,0 +1,29 @@
+<template>
+	<div class="select-item" v-if='show'>
+		<div class="percent percent-area">院校类型:</div>
+		<div class="per-cell per-cell-2">
+			<div class="area"  v-for='(category,index ) of categorys'>
+				<span :class="{active:index==0}" :category=category.datavalue>{{category.dataname}}</span>
+			</div>
+		</div>
+	</div>
+</template>
+<script>
+	module['base-categorys'] = {
+		template: template,
+		data: function data() {
+			return {
+				categorys: null,
+				show: 1
+			};
+		},
+		created: function created() {
+			var that = this;	
+			this.$http.get(base.baseApi('App.School.Category')).then(d=>{	
+				this.categorys = d.data.data.data				
+			})
+			
+		}
+	};
+</script>
+
