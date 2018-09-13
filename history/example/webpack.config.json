@@ -1,9 +1,9 @@
 {
-	"project_name":"example",
+	"project_name":"water-conservancy",
 	"rem":14,
 	"postCss":true,
-	"entry":"index",
+	"entry":"Index",
 	"commonJs":"base",
-	"port":1111,
+	"port":1000,
 	"compress":false
 }

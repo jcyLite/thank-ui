@@ -17,11 +17,6 @@ Vue.component('Header',Header)
  * */
 import Cube from 'cube-ui/lib'
 Vue.use(Cube)
-import 'cube-ui/lib/style';
-/*
- * use module witch needed will make project more litely
- * */
-
 
 
 

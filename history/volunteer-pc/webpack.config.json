@@ -1,9 +1,0 @@
-{
-	"project_name":"volunteer-pc",
-	"rem":14,
-	"postCss":true,
-	"entry":"main",
-	"commonJs":"base",
-	"port":3001,
-	"compress":false
-}

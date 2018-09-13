@@ -1,4 +1,6 @@
 const conf=require('../src/webpack.config.json');
+const processArgs=require('process.args')();
+console.log(processArgs);
 const compiler=require('./compiler.js');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path=require('path');
