@@ -9,6 +9,7 @@ const express = require('express');
 const webpack = require('webpack');
 const merge   = require('webpack-merge');
 const path    = require('path');
+const opn     = require('opn');
 const compiler = require('./compiler.js');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 /*
@@ -30,6 +31,11 @@ class developBase {
 		this.app.listen(port)
 		this.devMiddleware.waitUntilValid(()=>{
 			console.log('> Listening at localhost:'+port)
+			if(this.conf.auto_open_browser){
+				opn('http://localhost:'+port,{
+					app: ['chrome', '--incognito']
+				})
+			}
 		})
 	}
 	merge(src){

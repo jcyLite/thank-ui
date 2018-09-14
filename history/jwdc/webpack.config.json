@@ -1,9 +1,0 @@
-{
-	"project_name":"example",
-	"rem":14,
-	"postCss":true,
-	"entry":"index",
-	"commonJs":"base",
-	"port":3666,
-	"compress":false
-}

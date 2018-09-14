@@ -38,6 +38,7 @@
     "mini-css-extract-plugin": "^0.4.2",
     "node-sass": "^4.8.3",
     "nopt": "^4.0.1",
+    "opn": "^5.3.0",
     "postcss-loader": "^3.0.0",
     "process.args": "^0.0.6",
     "px2rem-loader": "^0.1.9",
