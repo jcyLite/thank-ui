@@ -1,0 +1,9 @@
+{
+	"project_name":"shihezi",
+	"rem":14,
+	"postCss":true,
+	"entry":"index",
+	"commonJs":"base",
+	"port":3002,
+	"compress":false
+}

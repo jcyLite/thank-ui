@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="user-scalable=no, width=device-width" />
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<meta name="format-detection" content="telephone=no" />
+		<title></title>
+	</head>
+	<body>
+		<!--in the Vue project,this div will replace to be a template 
+		witch is rendered by new Vue‘s options-->
+		<div id="app"></div>
+		<!--this cordova.js will require only in production-->
+		<% if(htmlWebpackPlugin.options.env=='production'){ %>
+		<script src="cordova.js"></script>
+		<% } %>
+	</body>
+</html>

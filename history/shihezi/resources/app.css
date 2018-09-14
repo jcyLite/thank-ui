@@ -1,0 +1,152 @@
+.page_header .left_img{
+	height:1.5em;
+	top:0.75em;
+/* 	border-right:solid 50px rgba(0,0,0,0); */
+}
+
+.page_header .left_img.pressed{
+	-webkit-transform:scale(1.1);
+}
+.menu2,.menu3,.menu4{
+	position:relative;
+	font-size:1em;
+	/*font-weight:bold;*/
+	text-align:center;
+	border-top:solid 1px #fff;
+	border-bottom:solid 1px #fff;
+	background:#fff;
+}
+
+.menu3 span,.menu4 span{
+	position:relative;
+	display:inline-block;
+	padding:10px 0;
+	color:#A3B0B9;
+	/*border-right:solid 1px #EEF1F5;*/
+}
+.menu3 span:last-child{
+	border-right:0;
+}
+.menu2 span{
+	width:49%;
+}
+.menu3 span{
+	width:33%;
+}
+.menu4 span{
+	width:25%;
+}
+.menu2 span.active,.menu3 span.active,.menu4 span.active{
+	color:#17639F;
+}
+.menu2 div.slide,.menu3 div.slide,.menu4 div.slide{
+	position:absolute;
+	height:2px;
+	left:0;
+	bottom:0;
+	width:100%;
+	background:#17639F;
+	-webkit-transition:left 0.1s ease-in;
+}
+
+.menu2 div.slide{
+	width:50%;
+}
+.menu3 div.slide{
+	width:33.33%;
+}
+.menu4 div.slide{
+	width:25%;
+}
+
+.slidebottom{
+	position:absolute;
+	height:2px;
+	width:100%;
+	background:#D2D6D9;
+}
+.slidebottom div.slide1{
+	width:50%;
+}
+.slidebottom div.slide2{
+	width:33.3%;
+}
+.slidebottom div.slide3{
+	width:25%;
+}
+.slidebottom div.slide1,.slidebottom div.slide2,.slidebottom div.slide3{
+	position:absolute;
+	height:2px;
+	left:0;
+	bottom:0;
+	background:#17639F;
+	-webkit-transition:left 0.1s ease-in;
+}
+.menu3 div.toptitle-split{
+	background: #17639F;
+	height: 100%;
+	position: absolute;
+	width: 1px;
+	top: 0;
+	right: 0;
+}
+.page_content_in{
+	width:100%;
+	height:auto;
+	display:block;
+    overflow:hidden;
+}	
+
+.btn1{
+	position:absolute;
+	width:90%;
+	left:5%;
+	text-align:center;
+	background:#0A4D9E;
+	border-radius:5px;
+	color:#fff;
+	font-size:1.1em;
+	font-weight:bold;
+	margin-top:1em;
+	height:3rem;
+	line-height:3rem;
+}
+.btn1.pressed{
+	background:#0F5D9B;
+}
+
+/*多行文本*/
+
+.view_out2{
+	width:100%;
+	background: #ffffff;
+	min-height:3.5rem;
+}
+.view_in2{
+	width:90%;
+	margin-left:5%;
+	display:block;
+    overflow:hidden;
+    font-size: 1rem;
+	border-bottom: 1px solid #eee; 
+	line-height: 3.5rem;
+	min-height:3.5rem;
+}
+.view_in_left{
+	width: 35%;
+	float: left;
+	text-align: left;
+	color:#9d9d9d;
+	
+}
+.view_in_right2{
+	width: 60%;
+	/*margin-right:5%;*/
+	float:right;
+	font-size: 1rem;
+	line-height: 1.5rem;
+	margin-top:1rem;
+	min-height:1.5rem;
+	margin-bottom:1rem;
+	text-align:right;
+}
