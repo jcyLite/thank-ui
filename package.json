@@ -6,6 +6,7 @@
   "author": "chenjian",
   "scripts": {
     "dev": "node config/development.server.js",
+    "dev:history":"node config/development.history.js",
     "build": "webpack --config config/production.service.js --progress --hide-modules",
     "build:cordova": "cross-env OUTPUT=cordova npm run build",
     "test": "npm run build:cordova&&cd cordova&&cordova run android",
