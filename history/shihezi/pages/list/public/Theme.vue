@@ -100,13 +100,13 @@
 			console.log(1212);
 			var that=this;
 			//按主题
-			that.$module.initScroll('#banjianListWrapper1',{
-				"dir": "y", //滚动的方向，x或者y
-				'scrollbars':false,
-				initAjax(reset){
-					that.$ajax.topicsList.call(that,'',reset)
-				}
-			})
+			// that.$module.initScroll('#banjianListWrapper1',{
+			// 	"dir": "y", //滚动的方向，x或者y
+			// 	'scrollbars':false,
+			// 	initAjax(reset){
+			// 		that.$ajax.topicsList.call(that,'',reset)
+			// 	}
+			// })
 			
 		}
 	}

@@ -38,13 +38,13 @@
 		},
 		mounted() {
 			var that = this;
-			this.$module.initScroll("#banjianListWrapper2",{
-				"dir": "y", //滚动的方向，x或者y
-				'scrollbars':false,
-				initAjax(reset){
-					ajax.call(that,reset);
-				}
-			})
+			// this.$module.initScroll("#banjianListWrapper2",{
+			// 	"dir": "y", //滚动的方向，x或者y
+			// 	'scrollbars':false,
+			// 	initAjax(reset){
+			// 		ajax.call(that,reset);
+			// 	}
+			// })
 		},
 		computed: {
 			banjianListWrapper2() {

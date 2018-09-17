@@ -1,6 +1,6 @@
+process.env.NODE_ENV='production';
 const conf=require('../src/webpack.config.json');
 const processArgs=require('process.args')();
-console.log(processArgs);
 const compiler=require('./compiler.js');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path=require('path');
@@ -8,6 +8,7 @@ const webpack=require('webpack');
 const merge=require('webpack-merge')
 var base=compiler('src');
 var entry=base.entry;
+
 for(var key in entry){
 	entry[key].unshift('./config/production.entry.js')
 }

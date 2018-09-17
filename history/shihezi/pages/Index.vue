@@ -331,21 +331,21 @@
 			if(this.$store.state.userInfo) {
 				this.loginName = this.$store.state.userInfo.realName;
 			}
-			this.myScroll=this.$module.initScroll('#wrapper', {
-				dir: "y", //滚动的方向，x或者y
-				height: window.innerHeight,
-				scrollbars:false,
-				/*下拉加载*/
-				pullDownLoading(reset) {
-					that.$ajax.infoList.call(that, reset)
-					that.$ajax.topicsList.call(that, 'sortByTime',reset);
-				},
-				/*一开始加载*/
-				initAjax(reset){
-					that.$ajax.infoList.call(that, reset)
-					that.$ajax.topicsList.call(that, 'sortByTime',reset);
-				}
-			})
+			// this.myScroll=this.$module.initScroll('#wrapper', {
+			// 	dir: "y", //滚动的方向，x或者y
+			// 	height: window.innerHeight,
+			// 	scrollbars:false,
+			// 	/*下拉加载*/
+			// 	pullDownLoading(reset) {
+			// 		that.$ajax.infoList.call(that, reset)
+			// 		that.$ajax.topicsList.call(that, 'sortByTime',reset);
+			// 	},
+			// 	/*一开始加载*/
+			// 	initAjax(reset){
+			// 		that.$ajax.infoList.call(that, reset)
+			// 		that.$ajax.topicsList.call(that, 'sortByTime',reset);
+			// 	}
+			// })
 		}
 	}
 </script>
