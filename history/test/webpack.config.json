@@ -1,9 +1,0 @@
-{
-	"project_name":"layChat",
-	"rem":14,
-	"postCss":true,
-	"entry":"index",
-	"commonJs":"base",
-	"port":3000,
-	"compress":false
-}

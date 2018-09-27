@@ -1,9 +1,0 @@
-{
-	"project_name":"IM",
-	"rem":14,
-	"postCss":true,
-	"static":["layui","base"],
-	"commonJs":"base",
-	"port":3003,
-	"compress":false
-}

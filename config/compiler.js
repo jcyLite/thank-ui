@@ -7,12 +7,8 @@ const rules = require('./loaders');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const isDev = process.env.NODE_ENV === 'development';
 const PostCompilePlugin = require('webpack-post-compile-plugin')
-function dist(output) {
-	if (output == 'cordova') {
-		return '../cordova/www'
-	} else {
-		return '../dist'
-	}
+function dist() {
+	return process.env.OUTPUT == 'cordova'?'../cordova/www':'../dist';
 }
 module.exports = function(src) {
 	var conf = require('../' + src + '/webpack.config.json');
@@ -25,7 +21,7 @@ module.exports = function(src) {
 		}, //入口JS
 		output: {
 			filename: "./js/[name].js",
-			path: path.resolve(__dirname, dist(process.env.OUTPUT))
+			path: path.resolve(__dirname, dist())
 		},
 		resolve: {
 			alias: {
