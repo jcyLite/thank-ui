@@ -1,0 +1,10 @@
+{
+	"project_name":"water-conservancy",
+	"rem":16,
+	"auto_open_browser":true,
+	"postCss":true,
+	"entry":"Index",
+	"commonJs":"base",
+	"port":1003,
+	"compress":false
+}

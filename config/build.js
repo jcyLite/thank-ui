@@ -1,11 +1,12 @@
 process.env.NODE_ENV='production';
-const conf=require('../src/webpack.config.json');
+const conf=require('./webpack.config.json');
 const processArgs=require('process.args')();
 const compiler=require('./compiler.js');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path=require('path');
 const webpack=require('webpack');
-const merge=require('webpack-merge')
+const merge=require('webpack-merge');
+const ora = require('ora');
 var base=compiler('src');
 var entry=base.entry;
 
@@ -22,7 +23,7 @@ if(conf.static){
 	})
 }
 base.plugins.push(new CopyWebpackPlugin(statics)) 
-module.exports=merge(base,{
+var webpackConfig=merge(base,{
 	plugins: [
 	    new webpack.DefinePlugin({ "process.env.NODE_ENV": JSON.stringify("production") }),
 	],
@@ -51,3 +52,21 @@ module.exports=merge(base,{
         }
    }
 });
+function buildPack(webpackConfig) {
+  var spinner = ora('building for uncompressed files...')
+  spinner.start()
+  webpack(webpackConfig, function (err, stats) {
+    spinner.stop()
+    if (err) {
+      throw err
+    }
+    process.stdout.write(stats.toString({
+      colors: true,
+      modules: false,
+      children: false,
+      chunks: false,
+      chunkModules: false
+    }) + '\n')
+  })
+}
+buildPack(webpackConfig)
