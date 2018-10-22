@@ -10,6 +10,7 @@ const webpack = require('webpack');
 const merge   = require('webpack-merge');
 const path    = require('path');
 const opn     = require('opn');
+const ora     = require('ora');
 const compiler = require('./compiler.js');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 /*
@@ -19,7 +20,8 @@ const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
  */
 class developBase {
 	constructor(src) {
-		console.log('> start make a development envirenment')
+		var spinner = ora('start make a development envirenment...')
+		spinner.start();
 		this.conf = require('../' + src + '/webpack.config.json') || {};
 		this.app = express();
 		this.merge(src);
@@ -30,10 +32,11 @@ class developBase {
 		var port = this.findPort();
 		this.app.listen(port)
 		this.devMiddleware.waitUntilValid(()=>{
+			spinner.stop()
 			console.log('> Listening at localhost:'+port)
 			if(this.conf.auto_open_browser){
 				opn('http://localhost:'+port,{
-					app: ['chrome', '--incognito']
+					app: ['chrome']
 				})
 			}
 		})
@@ -43,12 +46,6 @@ class developBase {
 		this.base=merge(base,{
 			devtool:'#cheap-module-eval-source-map',
 			plugins:[
-			/*
-			 *it will replace 'process.env' to be 'development' in project
-			 */
-				new webpack.DefinePlugin({
-					'process.env':'development'
-				}),
 				new webpack.HotModuleReplacementPlugin(),
 				new FriendlyErrorsPlugin()
 			]
@@ -79,12 +76,10 @@ class developBase {
 	 */
 	makeStatic(src) {
 		if (this.conf.static) {
-			this.conf.static.forEach((i) => {
-				this.app.use(
-					'/js/' + i,
-					express.static(path.resolve(__dirname, '../' + src + '/static/' + i))
-				);
-			})
+			this.app.use(
+				'/static',
+				express.static(path.resolve(__dirname, '../' + src + '/static'))
+			)
 		}
 	}
 	/*

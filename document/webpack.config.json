@@ -1,0 +1,11 @@
+{
+	"project_name":"thank-ui-doc",
+	"rem":false,
+	"auto_open_browser":true,
+	"postCss":true,
+	"entry":"Index",
+	"commonJs":"base",
+	"static":true,
+	"port":1000,
+	"compress":false
+}
