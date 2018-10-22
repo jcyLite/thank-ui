@@ -23,7 +23,7 @@ module.exports=function(conf){
     	options: vueLoaderConfig,
     	exclude: /node_modules/
 	},{
-		test: /\.html|.tpl$/,
+		test: /\.html|.tpl|.md$/,
 		use: {
 			'loader': "jcy-loader"
 		},
@@ -50,14 +50,14 @@ module.exports=function(conf){
 		loader: 'url-loader',
 		options: {
 			limit:1000,
-			name:"./images/[name].[ext]"
+			name:"images/[name].[ext]"
 		}
 	}, {
 		test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
 		loader: 'url-loader',
 		options:{
 			limit:1000,
-			name:"./voice/[name].[ext]"
+			name:"voice/[name].[ext]"
 		}
 	}, {
 		test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,

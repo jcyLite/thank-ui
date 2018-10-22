@@ -1,16 +1,21 @@
 {
-  "name": "webpack-client-template",
+  "name": "thank-ui",
   "version": "1.0.0",
   "description": "null",
   "keywords": [],
   "author": "chenjian",
   "scripts": {
-    "dev": "node config/development.server.js",
+  	"dev": "node config/development.js",
     "build": "node config/build.js",
+  	"dev:cpt":"node config/component/development.cpt.js",
+  	"build:cpt":"node config/component/build.cpt.js",
+    "dev:doc":"node config/document/development.doc.js",
+    "build:doc":"node config/document/build.doc.js",
     "build:cordova": "cross-env OUTPUT=cordova npm run build",
     "test": "npm run build:cordova&&cd cordova&&cordova run android",
     "public": "npm run build:cordova&&cd cordova&&cordova build"
   },
+  "main": "components/index.js",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
@@ -31,6 +36,7 @@
     "friendly-errors-webpack-plugin": "^1.7.0",
     "html-webpack-plugin": "^3.0.6",
     "jcy": "^1.0.14",
+    "jcy-fs": "^1.0.2",
     "jcy-loader": "^1.0.2",
     "less": "^3.8.1",
     "less-loader": "^4.1.0",
@@ -61,7 +67,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "cube-ui": "^1.10.13",
+    "better-scroll": "^1.13.2",
     "iscroll": "^5.2.0",
     "jquery": "^3.3.1",
     "mint-ui": "^2.2.13",

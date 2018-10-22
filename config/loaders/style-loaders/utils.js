@@ -31,7 +31,12 @@ exports.cssLoaders = function(options,conf) {
 	function generateLoaders(loader, loaderOptions) {
 		const loaders = options.usePostCSS ? [cssLoader, postcssLoader] : [cssLoader]
 		if(!isDev){
-			loaders.unshift(MiniCssExtractPlugin.loader);
+			loaders.unshift({
+				loader:MiniCssExtractPlugin.loader,
+				options:{
+					publicPath:'../'
+				}
+			});
 		}
 		if(conf.rem){
 			loaders.push(px2remLoader);

@@ -7,10 +7,14 @@ const rules = require('./loaders');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const isDev = process.env.NODE_ENV === 'development';
 const PostCompilePlugin = require('webpack-post-compile-plugin')
-function dist() {
-	return process.env.OUTPUT == 'cordova'?'../cordova/www':'../dist';
+function dist(odist) {
+	if(odist){
+		return '../'+odist
+	}else{
+		return process.env.OUTPUT == 'cordova'?'../cordova/www':'../dist';
+	}
 }
-module.exports = function(src) {
+module.exports = function(src,odist) {
 	var conf = require('../' + src + '/webpack.config.json');
 	conf.src = src;
 	return {
@@ -21,7 +25,7 @@ module.exports = function(src) {
 		}, //入口JS
 		output: {
 			filename: "./js/[name].js",
-			path: path.resolve(__dirname, dist())
+			path: path.resolve(__dirname, dist(odist))
 		},
 		resolve: {
 			alias: {
@@ -51,6 +55,9 @@ module.exports = function(src) {
 					removeConments: false, //remove the note in html
 					collapseWhitespace: false // delete the white and space
 				}
+			}),
+			new webpack.DefinePlugin({
+				'process.env':JSON.stringify(process.env.NODE_ENV)
 			}),
 			new VueLoaderPlugin(),
 			new MiniCssExtractPlugin({
