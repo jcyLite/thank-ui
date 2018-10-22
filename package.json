@@ -5,12 +5,12 @@
   "keywords": [],
   "author": "chenjian",
   "scripts": {
-  	"dev": "node config/development.js",
+    "dev": "node config/development.js",
     "build": "node config/build.js",
-  	"dev:cpt":"node config/component/development.cpt.js",
-  	"build:cpt":"node config/component/build.cpt.js",
-    "dev:doc":"node config/document/development.doc.js",
-    "build:doc":"node config/document/build.doc.js",
+    "dev:cpt": "node config/component/development.cpt.js",
+    "build:cpt": "node config/component/build.cpt.js",
+    "dev:doc": "node config/document/development.doc.js",
+    "build:doc": "node config/document/build.doc.js",
     "build:cordova": "cross-env OUTPUT=cordova npm run build",
     "test": "npm run build:cordova&&cd cordova&&cordova run android",
     "public": "npm run build:cordova&&cd cordova&&cordova build"
@@ -68,6 +68,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "better-scroll": "^1.13.2",
+    "cube-ui": "^1.11.2",
     "iscroll": "^5.2.0",
     "jquery": "^3.3.1",
     "mint-ui": "^2.2.13",

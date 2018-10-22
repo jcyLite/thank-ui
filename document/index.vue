@@ -84,13 +84,14 @@
 				<div class="icon">
 					Thank-UI 文档
 				</div>
-				<div class="right_icon">
+				<!-- <div class="right_icon">
 					<span class="glyphicon glyphicon-menu-hamburger"></span>
-				</div>
+				</div> -->
 			</div>
 		</div>
 		<div class="container">
 			<div class="left_nav">
+				<Doc></Doc>
 			</div>
 			<div class="right_box">
 				<div class="phone_img">
@@ -102,6 +103,7 @@
 </template>
 
 <script>
+	import Doc from './document.vue';
 	export default {
 		data(){
 			return {
@@ -111,6 +113,7 @@
 			}
 			
 		},
+		components:{Doc},
 		mounted(){
 			console.log(process.env)
 		}

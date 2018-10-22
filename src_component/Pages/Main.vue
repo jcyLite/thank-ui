@@ -62,6 +62,14 @@
 						}
 					}]
 				},{
+					title:'Canvas画布组件',
+					list:[{
+						title:'Sign签名',
+						click(){
+							this.$router.push('/sign')
+						}
+					}]
+				},{
 					title:'基于cordova8.0的组件',
 					list:[{
 						title:'Voice(语音)',
@@ -87,6 +95,9 @@
 		},
 		components:{},
 		mounted(){
+		},
+		beforeDestroy(){
+			console.log(12)
 		}
 	}
 </script>

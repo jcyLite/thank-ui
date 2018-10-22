@@ -1,5 +1,6 @@
 /*嵌入式组件*/
 import Basic from './Basic';
+import Canvas from './Canvas'
 import Form from './Form';
 import Scroll from './Scroll'
 import Menu from './Menu'
@@ -23,10 +24,7 @@ const Thank={
   version:1.0,
   install(Vue){
   	install_jquery.call(Vue)
-  	install_component.call(Vue,Basic);
-  	install_component.call(Vue,Form);
-  	install_component.call(Vue,Scroll);
-  	install_component.call(Vue,Menu);
+  	install_component.call(Vue,Object.assign(Basic,Canvas,Form,Scroll,Menu));
   	Vue.prototype['tk_bottom']=Bottom;
   	Vue.prototype['tk_tip']=Tip;
   	Vue.prototype['tk_voice']=Voice;

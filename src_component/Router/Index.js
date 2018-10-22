@@ -14,6 +14,8 @@ import Switch from '../Pages/Form/Switch.vue';
 /*Scroll components*/
 import Carousel from '../Pages/Scroll/Carousel.vue';
 import ScrollNav from '../Pages/Scroll/ScrollNav.vue';
+/*Canvas components*/
+import Sign from '../Pages/Canvas/Sign.vue';
 /*Cordova components*/
 import Voice from '../Pages/Cordova/Voice.vue';
 
@@ -48,6 +50,9 @@ var router=new Router({
 	},{
 		path:'/scrollnav',
 		component:ScrollNav
+	},{
+		path:'/sign',
+		component:Sign
 	}]
 })
 router.goBack=function(index){
