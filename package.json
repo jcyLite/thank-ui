@@ -1,14 +1,12 @@
 {
   "name": "thank-ui",
   "version": "1.0.0",
-  "description": "null",
-  "keywords": [],
+  "description": "a ui lib of vue",
+  "keywords": ["ui","vue","thank"],
   "author": "chenjian",
   "scripts": {
     "dev": "node config/development.js",
     "build": "node config/build.js",
-    "dev:cpt": "node config/component/development.cpt.js",
-    "build:cpt": "node config/component/build.cpt.js",
     "dev:doc": "node config/document/development.doc.js",
     "build:doc": "node config/document/build.doc.js",
     "build:cordova": "cross-env OUTPUT=cordova npm run build",
