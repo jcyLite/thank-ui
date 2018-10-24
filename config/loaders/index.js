@@ -9,42 +9,37 @@ module.exports=function(conf){
 		test: /\.ejs$/,
 		use: {
 			'loader': 'ejs-loader'
-		},
-		exclude: /node_modules/
+		}
 	},{
 		test:/\.ts$/,
 		use:{
 			"loader":'ts-loader'
-		},
-		exclude: /node_modules/
+		}
 	},{
 		test:/\.vue$/,
 		loader: 'vue-loader',
-    	options: vueLoaderConfig,
-    	exclude: /node_modules/
+    options: vueLoaderConfig
 	},{
 		test: /\.html|.tpl|.md$/,
 		use: {
 			'loader': "jcy-loader"
-		},
-		exclude: /node_modules/
+		}
 	}, {
 		test: /\.js$/,
-	    exclude: /(node_modules)/,
-	    use: [{
-	      loader: 'babel-loader',
-	      options: {
-	        presets: ['es2015'],
-	        plugins: [
-	       	  "transform-object-rest-spread",
-	          'syntax-dynamic-import',
-	          'transform-async-to-generator',
-	          'transform-regenerator',
-	          'transform-runtime'
-	        ],
-	        "compact": false
-	      }
-	    }]
+    use: [{
+      loader: 'babel-loader',
+      options: {
+        presets: ['es2015'],
+        plugins: [
+       	  "transform-object-rest-spread",
+          'syntax-dynamic-import',
+          'transform-async-to-generator',
+          'transform-regenerator',
+          'transform-runtime'
+        ],
+        "compact": false
+      }
+    }]
 	}, {
 		test: /\.(png|jpe?g|gif|svg|webp)(\?.*)?$/,
 		loader: 'url-loader',
