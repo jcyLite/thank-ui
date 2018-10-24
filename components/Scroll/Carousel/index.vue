@@ -22,7 +22,7 @@
 </template>
 
 <script>
-	import Swiper from '../../../modules/Swiper/swiper.js'
+	var Swiper=require('../../../modules/Swiper/swiper.js');
 	export default {
 		data(){
 			return {

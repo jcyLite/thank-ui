@@ -1,7 +1,7 @@
 {
 	"name": "thank-ui",
-	"version": "1.0.1",
-	"description": "a ui lib of vue",
+	"version": "1.0.5",
+	"description": " ui lib of vue",
 	"keywords": [
 		"ui",
 		"vue",
@@ -19,7 +19,7 @@
 		"test": "npm run build:cordova&&cd cordova&&cordova run android",
 		"public": "npm run build:cordova&&cd cordova&&cordova build"
 	},
-	"main": "components/index.js",
+	"main": "lib/js/index.js",
 	"devDependencies": {
 		"babel-core": "^6.26.0",
 		"babel-loader": "^7.1.2",

@@ -18,7 +18,7 @@ module.exports=function(conf){
 	},{
 		test:/\.vue$/,
 		loader: 'vue-loader',
-    options: vueLoaderConfig
+    	options: vueLoaderConfig
 	},{
 		test: /\.html|.tpl|.md$/,
 		use: {
