@@ -11,6 +11,7 @@
 	"scripts": {
 		"dev": "node config/development.js",
 		"build": "node config/build.js",
+		"build:cpt":"node config/build.cpt.js",
 		"copy": "node config/copy.js",
 		"dev:doc": "node config/document/development.doc.js",
 		"build:doc": "npm run build&&npm run copy&&node config/document/build.doc.js",
