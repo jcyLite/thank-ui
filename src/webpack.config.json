@@ -1,7 +1,7 @@
 {
-	"project_name":"water-conservancy",
+	"project_name":"thank-ui",
 	"rem":16,
-	"auto_open_browser":true,
+	"auto_open_browser":false,
 	"postCss":true,
 	"entry":"Index",
 	"commonJs":"base",

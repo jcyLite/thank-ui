@@ -7,10 +7,9 @@
   "scripts": {
     "dev": "node config/development.js",
     "build": "node config/build.js",
-    "dev:cpt": "node config/component/development.cpt.js",
-    "build:cpt": "node config/component/build.cpt.js",
+    "copy":"node config/copy.js",
     "dev:doc": "node config/document/development.doc.js",
-    "build:doc": "node config/document/build.doc.js",
+    "build:doc": "npm run build&&npm run copy&&node config/document/build.doc.js",
     "build:cordova": "cross-env OUTPUT=cordova npm run build",
     "test": "npm run build:cordova&&cd cordova&&cordova run android",
     "public": "npm run build:cordova&&cd cordova&&cordova build"
