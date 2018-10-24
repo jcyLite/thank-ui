@@ -1,8 +1,8 @@
 {
   "name": "thank-ui",
   "version": "1.0.0",
-  "description": "null",
-  "keywords": [],
+  "description": "a ui lib of vue",
+  "keywords": ["ui","vue","thank"],
   "author": "chenjian",
   "scripts": {
     "dev": "node config/development.js",
