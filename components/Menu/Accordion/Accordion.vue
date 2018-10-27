@@ -68,7 +68,7 @@
 		props:{
 			list:{
 				type:Array,
-				default:[
+				default:()=>[
 					{
 						title:'a',
 						list:[{

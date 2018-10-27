@@ -42,7 +42,6 @@ module.exports = function(src,odist) {
 			rules: rules(conf)
 		},
 		plugins: [
-			new PostCompilePlugin(),
 			new HtmlWebpackPlugin({
 				template: './' + src + '/index.html', // 模板文件           
 				filename: 'index.html',
@@ -56,6 +55,7 @@ module.exports = function(src,odist) {
 					collapseWhitespace: false // delete the white and space
 				}
 			}),
+			new PostCompilePlugin(),
 			new webpack.DefinePlugin({
 				'process.env':JSON.stringify(process.env.NODE_ENV)
 			}),
