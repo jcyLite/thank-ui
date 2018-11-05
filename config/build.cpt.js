@@ -12,14 +12,14 @@ webpackConfig.plugins.shift();
 webpackConfig.output={
 	filename: "./index.js",
 	path: path.resolve(__dirname,"../lib"),
-	library:'vue-hzf5-package',
+	library:'Thank',
 	libraryTarget:'umd'
 }
 for(var key in entry){
 	entry[key].unshift('./config/production.entry.js')
 }
 function buildPack(webpackConfig,callback) {
-var spinner = ora('building for uncompressed files...')
+var spinner = ora('building for lib...')
 spinner.start()
 webpack(webpackConfig, function (err, stats) {
     spinner.stop()

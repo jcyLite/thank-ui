@@ -18,6 +18,11 @@
 						click(){
 							this.$router.push('/cell') 
 						}
+					},{
+						title:'Select(选择)',
+						click(){
+							this.$router.push('/select')
+						}
 					}]
 				},{
 					title:'Menu菜单组件',

@@ -20,6 +20,7 @@ module.exports = function(src,odist) {
 	return {
 		target: 'web',
 		mode: 'development',
+		devtool:'source-map',
 		entry: {
 			index: ['./' + src + '/index.js']
 		}, //入口JS
@@ -61,8 +62,7 @@ module.exports = function(src,odist) {
 			}),
 			new VueLoaderPlugin(),
 			new MiniCssExtractPlugin({
-				filename:"css/[name].[chunkhash:8].css",
-				chunkFilename:"css/[id].css"
+				filename:"css/[name].css"
 			}),
 			new CleanWebpackPlugin(['dist', 'build'], {
 				verbose: false

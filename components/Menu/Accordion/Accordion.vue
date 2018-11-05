@@ -62,6 +62,7 @@
 	export default {
 		methods:{
 			item_click(fn){
+				console.log(this);
 				fn&&fn.call(this)
 			}
 		},

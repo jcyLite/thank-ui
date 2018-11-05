@@ -5,6 +5,7 @@ import Main from '../Pages/Main.vue';
 /*Basic components*/
 import Button from '../Pages/Basic/Button.vue';
 import Cell from '../Pages/Basic/Cell.vue';
+import Select from '../Pages/Basic/Select.vue';
 import Accordion from '../Pages/Menu/Accordion.vue';
 /*Poper components*/
 import Bottom from '../Pages/Poper/Bottom.vue';
@@ -26,6 +27,9 @@ var router=new Router({
 	},{
 		path:'/button',
 		component:Button
+	},{
+		path:'/select',
+		component:Select
 	},{
 		path:'/poper_bottom',
 		component:Bottom

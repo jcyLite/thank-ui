@@ -34,7 +34,7 @@
 </style>
 <template>
 	<div class="tk-header">
-		<div v-show="back" @click="$router.go(-1)" class="left">
+		<div v-show="back" @click="$emit('left_click')&&$router.go(-1)" class="left">
 			<span class="glyphicon glyphicon-menu-left"></span>
 		</div>
 		<div class="title">
